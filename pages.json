@@ -5,9 +5,27 @@
 	"pages": [{
 		"path": "pages/index/index",
 		"style": {
-			"navigationBarTitleText": "简账"
+			"navigationBarTitleText": "首页"
 		}
-	}],
+	},{
+		"path": "pages/login/index",
+		"style": {
+			"navigationBarTitleText": "登录"
+		}
+	},{
+		"path": "pages/login/code",
+		"style": {
+			"navigationBarTitleText": "验证码"
+		}
+	}
+	],
+    /* "condition": { //模式配置，仅开发期间生效
+        "current": 0, //当前激活的模式（list 的索引项）
+        "list": [{
+            "name": "test", //模式名称
+            "path": "pages/login/index" //启动页面，必选
+        }]
+    }, */
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
