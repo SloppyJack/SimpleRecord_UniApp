@@ -1,33 +1,33 @@
 <template>
 	<view class="container">
-		<u-modal v-model="show" @confirm="modelConfirm" @cancel="modalCancel" :content="content"></u-modal>
-		<u-action-sheet :list="list" v-model="show"></u-action-sheet>
+		<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="false" :content="content"></u-modal>
 	</view>
 </template>
 
 <script>
-	import {mapState} from 'vuex';
+	import {mapState, mapMutations} from 'vuex';
 	
 	export default {
-		computed: mapState(['hasLogin']),
+		computed: {
+			...mapState(['hasLogin'])
+		},
 		data() {
-			show: false
-			
+			return {
+				show: false,
+				content: '请先登录',
+			}
 		},
 		methods: {
 			modelConfirm() {
-				
+				uni.redirectTo({
+				    url: '../login/index'
+				})
 			}
 		},
 		onLoad() {
-			console.log(this.$store.hasLogin)
-			if(!this.$store.hasLogin) {
-				this.$refs.uToast.show({
-									title: '登录成功',
-									type: 'warning',
-									icon: 'backspace',
-									url: 'pages/login/index'
-								})
+			console.log(this.hasLogin)
+			if(!this.hasLogin) {
+				this.show = true;
 			}
 			console.log(this.$store)
 		}

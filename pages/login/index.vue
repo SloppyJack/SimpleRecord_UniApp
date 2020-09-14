@@ -50,8 +50,17 @@ export default {
 	methods: {
 		submit() {
 			if(!this.$u.test.isEmpty(this.username) && !this.$u.test.isEmpty(this.password)) {
-				this.$u.route({
-					url: 'pages/login/code'
+				// this.$u.route({
+				// 	url: 'pages/login/code'
+				// })
+				this.$u.post('/user/login', {
+					username: this.username,
+					password: this.password
+				}).then(res => {
+					// res为服务端返回的数据
+					console.log(res)
+				}).catch(res=>{
+					console.log('登录失败' + res)
 				})
 			} else{
 				// 提示
@@ -61,6 +70,9 @@ export default {
 				})
 			}
 		}
+	},
+	onLoad() {
+		
 	}
 };
 </script>
