@@ -3,9 +3,9 @@
         "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
     },
 	"pages": [{
-		"path": "pages/index/index",
+		"path": "pages/detail/index",
 		"style": {
-			"navigationBarTitleText": "首页"
+			"navigationBarTitleText": "明细"
 		}
 	},{
 		"path": "pages/login/index",
@@ -16,6 +16,26 @@
 		"path": "pages/login/code",
 		"style": {
 			"navigationBarTitleText": "验证码"
+		}
+	},{
+		"path": "pages/chart/index",
+		"style": {
+			"navigationBarTitleText": "图标"
+		}
+	},{
+		"path": "pages/add/index",
+		"style": {
+			"navigationBarTitleText": "记账"
+		}
+	},{
+		"path": "pages/robot/index",
+		"style": {
+			"navigationBarTitleText": "树洞"
+		}
+	},{
+		"path": "pages/me/index",
+		"style": {
+			"navigationBarTitleText": "我的"
 		}
 	}
 	],
@@ -38,33 +58,33 @@
 		"color": "#8F8F94",
 		"selectedColor": "#f33e54",
 		"list": [{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/detail/index",
 				"iconPath": "static/img/tabbar/detail.png",
 				"selectedIconPath": "static/img/tabbar/detailActive.png",
 				"text": "明细"
 			},
 			{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/chart/index",
 				"iconPath": "static/img/tabbar/chart.png",
 				"selectedIconPath": "static/img/tabbar/chartActive.png",
 				"text": "图表"
 			},
 			//#ifdef MP-WEIXIN
 			{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/add/index",
 				"iconPath": "static/img/tabbar/add.png",
 				"selectedIconPath": "static/img/tabbar/addactive.png",
 				"text": "记一笔"
 			},
 			//#endif
 			{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/robot/index",
 				"iconPath": "static/img/tabbar/robot.png",
 				"selectedIconPath": "static/img/tabbar/robotActive.png",
 				"text": "树洞"
 			},
 			{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/me/index",
 				"iconPath": "static/img/tabbar/me.png",
 				"selectedIconPath": "static/img/tabbar/meActive.png",
 				"text": "我的"

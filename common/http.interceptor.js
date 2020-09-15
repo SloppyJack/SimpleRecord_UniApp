@@ -26,9 +26,9 @@ const install = (Vue, vm) => {
 	
 	// 响应拦截，判断状态码是否通过
 	Vue.prototype.$u.http.interceptor.response = (res) => {
-		if(res.code == 0) {
-			return res.result;
-		} else if(res.code == 102 || res.code == 103) {
+		if(res.retCode == 0) {
+			return res.data;
+		} else if(res.retCode == 102 || res.retCode == 103) {
 			console.log(res);
 			vm.$u.toast(res.message);
 			// 清除vuex中的状态

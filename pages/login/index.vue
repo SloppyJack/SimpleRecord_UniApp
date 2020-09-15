@@ -1,6 +1,8 @@
 <template>
 	<view class="wrap">
-		<view class="top"></view>
+		<view class="top">
+			<u-top-tips ref="uTips"></u-top-tips>
+		</view>
 		<view class="content">
 			<view class="title">欢迎登录简账</view>
 			<view class="u-font-13">
@@ -40,41 +42,49 @@
 </template>
 
 <script>
-export default {
-	data() {
-		return {
-			username: '',
-			password: ''
-		}
-	},
-	methods: {
-		submit() {
-			if(!this.$u.test.isEmpty(this.username) && !this.$u.test.isEmpty(this.password)) {
-				// this.$u.route({
-				// 	url: 'pages/login/code'
-				// })
-				this.$u.post('/user/login', {
-					username: this.username,
-					password: this.password
-				}).then(res => {
-					// res为服务端返回的数据
-					console.log(res)
-				}).catch(res=>{
-					console.log('登录失败' + res)
-				})
-			} else{
-				// 提示
-				this.$refs.uToast.show({
-					title: '请输入账号密码',
-					type: 'error'
-				})
+	import {mapState, mapMutations} from 'vuex';
+	
+	export default {
+		data() {
+			return {
+				username: 'bin',
+				password: 'Abcd1234',
+				// 状态栏高度，H5中，此值为0，因为H5不可操作状态栏
+				statusBarHeight: uni.getSystemInfoSync().statusBarHeight,
+				// 导航栏内容区域高度，不包括状态栏高度在内
+				navbarHeight: 44
 			}
+		},
+		methods: {
+			...mapMutations(['login']),
+			submit() {
+				if(!this.$u.test.isEmpty(this.username) && !this.$u.test.isEmpty(this.password)) {
+					this.$u.post('/user/login', {
+						username: this.username,
+						password: this.password
+					}).then(res => {
+						this.login(res)
+						this.$refs.uTips.show({
+							title: '登录成功',
+							duration: 1000
+							})
+						uni.switchTab({
+						    url: 'pages/detail/index'
+						})
+					})
+				} else{
+					// 提示
+					this.$refs.uToast.show({
+						title: '请输入账号密码',
+						type: 'error'
+					})
+				}
+			}
+		},
+		onLoad() {
+			
 		}
-	},
-	onLoad() {
-		
-	}
-};
+	};
 </script>
 
 <style lang="scss" scoped>

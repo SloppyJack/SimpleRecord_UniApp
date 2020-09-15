@@ -1,5 +1,6 @@
 <template>
-	<view class="container">
+	<view>
+		<view>这里是详情页</view>
 		<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="false" :content="content"></u-modal>
 	</view>
 </template>
@@ -18,6 +19,7 @@
 			}
 		},
 		methods: {
+			...mapMutations(['login']),
 			modelConfirm() {
 				uni.redirectTo({
 				    url: '../login/index'
@@ -33,3 +35,6 @@
 		}
 	}
 </script>
+
+<style>
+</style>
