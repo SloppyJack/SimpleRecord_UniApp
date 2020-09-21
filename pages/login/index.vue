@@ -66,11 +66,13 @@
 						this.login(res)
 						this.$refs.uTips.show({
 							title: '登录成功',
-							duration: 1000
+							duration: 1000,
 							})
-						uni.switchTab({
-						    url: 'pages/detail/index'
-						})
+						setTimeout(function() {
+							uni.redirectTo({
+							    url: '/pages/detail/index'
+							});
+						},1500);
 					})
 				} else{
 					// 提示

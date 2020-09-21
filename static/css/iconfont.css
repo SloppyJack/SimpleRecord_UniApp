@@ -1,0 +1,25 @@
+@font-face {
+	font-family: "custom-icon";
+	src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAUQAAsAAAAAClgAAATDAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqHdIY9ATYCJAMQCwoABCAFhREHQRvMCMiemjxto4ACymIBgPOB4YiHp/2+nftmnqxp0rSetG3yZgIk1ZCWqloSqZIhewl/KK+cJJveZrLCSf5JOTnlEdnW2dZBBT9P6kv+Efc/txmaeIR0oaCRZJo0z25/fry/G+KlQIikxF/qxLHUzwSrBICsoOjRAKMtz6OLcBO2LbKLOJKWfTuBdmN8Ievp651SlqH9AnGXFpZSTpnkCmJotBVwagbxGpSaYh06CoBX/u/HfxAcUqBQJoAO3b0+cZX+L5c3ezHm/zm45FrAk+EckM4iYR6QiZug6zI9VMz7qnao0LACaLCjYKhlNW/2/m+Fkq2oGv5fHqGQiAogVScHXVKmAxNTHsGvGh4Fv/aaJBac924wCMQJUOIpAx2pb1SqTpnRyMZD7WV2MnQpjVwlkStkS+bnCx89KpqbK5idLSGK/ECQ5BfEKejHc2gLg/9Zg1EUSdJMjuAZrojjdJCFUBBMnN1fELmk3u+MvgR2QsgCvjqST6iLpFLwnmMFBMmajaQPIFlE0cwDEJO4++eDG19PQgV7HOTzEyR5xkt2ddoe3zcTobwyZYeeDG8EX94sGhFBYLnCov1XT+LNRGORuGvnUV1+4c+Rs96K3PYdR4wFtRzV4BMTEcQ0lg8ZFTj/Bp2E5/VKs2gSDIuYEyfMt06ZTt5kjx9vU81hU7X5FIKbTpYpcGV+Un5DEJSynmSvH6dVXMAHvXqoAtPJEhmnSwDlRwh3C1o0QUCb0RaBb/H4ggJlSYLQPFlgb1bzMZ9T7Dlp/JW6lGW19I/7xFpvzHiCwDH0ODGqHSFpw4nmBSh2bPMt7W3I7tL0vKtO1niv2gQzymVsjsjYtGyztdPbr8yIdpSgqPJtT5g3MJQvNNEGP4cf5SeGbhN+xq71FPWH6FptipYCV2/5V7InPluNX8TV2cv8TcOee4OYHTMc0z+G7g8+1o859F1nlnTWnSSNhGPQgzUdIRdCVl0cpF+HWp3E6SG7OuR8yMpDrh9qgz7ISQ9Amh6T3ORVdD8J+fsNBOEXEk5wdP9RWHbZzaBrT+Pw0RVxcLNHXT/Zd1pDZarqE0Uq4VGfaqkhH+9//9srDojrx+rHfHJF7e02KJ65qLwsqpLNkpfK5e3ZsuZyqkWz++ZSqhQ8pKA1NozlAoX0GN0GtEonMeYX3c1PrW5FpTL2q5T8RFN+bBzp8QOtMmim9p+JG4t/SHHDkWxKkTlnXUZFVnn2DTS832rt2vEb5uj3ZAjNUONKQoehmF6oTdCTDlPADF0AltBVYAXdprebk3d2hwGDdJEJwKwtDD0Mu0UvdPtOT4Y9BWboV0CJDRJYQZ3o7Y4j4pIdJmMDTGlFi9GFmh6gayn1SDNXazsypqSRXnmDIo8tKbdG8QPKLGCnQpB/IJCdYYpyuCPaOkW3vd2DhlZKIL3nu2EcEzS3UogON5va+dgLCGiAfqhZuyxRqtZIyMKQC9S4AjQHSXnuxazqilyGkUSj6u9sICEXs8jqHoDEAZKyKuA2BgTxF9gMOFOlTTsusbDNidA1E8wDVCW7eUD6oh0oxikCmuGdQsjBmpo6JI56AriJGpqqmtNqkns+B9qhZ+dAEQyRIDio7tGpuATF9g47sKjQuswmVhQA') format('woff2');
+}
+
+.custom-icon {
+  font-family: "custom-icon" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.custom-icon-mingxi:before {
+  content: "\e623";
+}
+
+.custom-icon-tubiao:before {
+  content: "\e662";
+}
+
+.custom-icon-robot:before {
+  content: "\e69e";
+}
+

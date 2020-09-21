@@ -13,7 +13,45 @@ const store = new Vuex.Store({
 			email: '',
 			sex: '',
 			avatar: ''
+			},
+		// 自定义tabbar数据
+		vuex_tabbar: [{
+				pagePath: "/pages/detail/index",
+				iconPath: "mingxi",
+				selectedIconPath: "mingxi",
+				customIcon: true,
+				text: "明细"
+			},
+			{
+				pagePath: "/pages/chart/index",
+				iconPath: "tubiao",
+				selectedIconPath: "tubiao",
+				customIcon: true,
+				text: "图表"
+			},
+			{
+				pagePath: "/pages/add/index",
+				iconPath: "plus",
+				selectedIconPath: "plus",
+				text: "记一笔",
+				midButton: true
+			},
+			{
+				pagePath: "/pages/robot/index",
+				iconPath: "robot",
+				selectedIconPath: "robot",
+				customIcon: true,
+				text: "树洞"
+			},
+			{
+				pagePath: "/pages/me/index",
+				iconPath: "account",
+				selectedIconPath: "account",
+				text: "我的"
 			}
+		],
+		tabbarBgColor: "#ffffff",
+		tabbarActiveColor: "#5098FF"
 	},
 	mutations: {
 		login(state, provider) {
