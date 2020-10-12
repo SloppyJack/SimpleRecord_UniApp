@@ -9,7 +9,7 @@ const store = new Vuex.Store({
 		userInfo: {
 			id: '',
 			name: "",
-			token: '',
+			token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlsibG9nOnF1ZXJ5QWxsIiwibG9nOmZpbmQiLCJpbmZvOnRlc3QiLCJpbmZvOnJlYWRMaW4iLCJsb2c6cXVlcnlIaXN0b3J5Il0sImV4cCI6MTYwMjUyMjgxMiwiaWF0IjoxNjAyNTAxMjEyfQ.nxLkwoKnhmVK1A_TWYZ8cxXEXhhkqvqTGRrjSrDcCwZmPZRcCcjz7Aux8UEXTla-WQwK1GijF6BsbMxfyBqdHw',
 			email: '',
 			sex: '',
 			avatar: ''

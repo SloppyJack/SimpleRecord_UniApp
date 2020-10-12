@@ -5,7 +5,8 @@
 	"pages": [{
 		"path": "pages/detail/index",
 		"style": {
-			"navigationBarTitleText": "明细"
+			"navigationBarTitleText": "明细",
+			"enablePullDownRefresh": true
 		}
 	},{
 		"path": "pages/login/index",

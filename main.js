@@ -3,6 +3,7 @@ import App from './App'
 import uView from "uview-ui";
 import store from './store';
 import httpInterceptor from '@/common/http.interceptor.js';
+import apis from '@/common/http.api.js'
 
 Vue.use(uView);
 Vue.config.productionTip = false
@@ -17,4 +18,5 @@ const app = new Vue({
 
 // 引入http请求的设置
 Vue.use(httpInterceptor, app)
+Vue.use(apis, app)
 app.$mount()

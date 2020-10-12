@@ -69,7 +69,7 @@
 							duration: 1000,
 							})
 						setTimeout(function() {
-							uni.redirectTo({
+							uni.switchTab({
 							    url: '/pages/detail/index'
 							});
 						},1500);
