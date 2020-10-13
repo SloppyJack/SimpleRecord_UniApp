@@ -28,6 +28,24 @@
 					</u-row>
 				</view>
 			</view>
+			<view>
+				<u-card title="本月消费前三占比" sub-title="支出统计">
+					<view class="" slot="body">
+						<view v-if="spendTotalCategory.length > 0">
+							<view class="u-body-item" v-for="item in spendTotalCategory" :key="item.index">
+								{{item.spendCategoryName}}(金额:{{item.total}})
+								<u-line-progress active-color="#2979ff" :percent="item.percent"></u-line-progress>
+							</view>
+						</view>
+						<view v-else>
+							<u-empty text="试试下拉刷新" mode="list"></u-empty>
+						</view>
+						
+						
+					</view>
+					<view class="" slot="foot"><u-icon name="chat-fill" size="34" color="" label="查看更多"></u-icon></view>
+				</u-card>
+			</view>
 			<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="false" :content="content"></u-modal>
 			<u-toast ref="uToast" />
 		</view>
@@ -51,7 +69,8 @@
 				year: new Date().getFullYear(),
 				month: new Date().getMonth() + 1,
 				expendTotal: 0.00,
-				incomeTotal: 0.00
+				incomeTotal: 0.00,
+				spendTotalCategory: []
 			}
 		},
 		methods: {
@@ -61,10 +80,27 @@
 				    url: '../login/index'
 				})
 			},
+			getTopThreeSpendTotal() {
+				this.$u.api.getTopThreeSpendTotal({date: this.year + '-' + this.month}).then(res => {
+					// 清空数组
+					this.spendTotalCategory = [];
+					res.forEach((n, index) => {
+						var temp = {
+							'index': index,
+							'spendCategoryName': n.spendCategoryName,
+							'spendCategoryId': n.spendCategoryId,
+							'total': n.total,
+							'percent': Math.round(n.total/this.expendTotal * 10000) / 100
+						};
+						this.spendTotalCategory.push(temp);
+					});
+				});
+			},
 			getSpendTotal() {
 				this.$u.api.getSpendTotal({date: this.year + '-' + this.month}).then(res => {
 					this.expendTotal = res[0];
 					this.incomeTotal = res[1];
+					this.getTopThreeSpendTotal();
 					this.$refs.uToast.show({
 						title: '更新成功',
 						type: 'success'
@@ -113,5 +149,8 @@
 				height: 200rpx;
 			}
 		}
+	}
+	.u-body-item{
+		padding-top: 20rpx;
 	}
 </style>
