@@ -40,10 +40,8 @@
 						<view v-else>
 							<u-empty text="试试下拉刷新" mode="list"></u-empty>
 						</view>
-						
-						
 					</view>
-					<view class="" slot="foot"><u-icon name="chat-fill" size="34" color="" label="查看更多"></u-icon></view>
+					<view class="" slot="foot"><u-icon @click="showMore" name="chat-fill" size="34" color="" label="查看更多"></u-icon></view>
 				</u-card>
 			</view>
 			<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="false" :content="content"></u-modal>
@@ -94,6 +92,10 @@
 						};
 						this.spendTotalCategory.push(temp);
 					});
+					this.$refs.uToast.show({
+						title: '更新成功',
+						type: 'success'
+					});
 				});
 			},
 			getSpendTotal() {
@@ -101,10 +103,12 @@
 					this.expendTotal = res[0];
 					this.incomeTotal = res[1];
 					this.getTopThreeSpendTotal();
-					this.$refs.uToast.show({
-						title: '更新成功',
-						type: 'success'
-					});
+				});
+			},
+			showMore() {
+				console.log("点击了");
+				uni.navigateTo({
+				    url: '../list/index'
 				});
 			}
 		},

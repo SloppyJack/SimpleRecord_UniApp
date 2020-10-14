@@ -21,12 +21,13 @@
 	},{
 		"path": "pages/chart/index",
 		"style": {
-			"navigationBarTitleText": "图标"
+			"navigationBarTitleText": "图表"
 		}
 	},{
 		"path": "pages/add/index",
 		"style": {
-			"navigationBarTitleText": "记账"
+			"navigationBarTitleText": "记账",
+			"enablePullDownRefresh": true
 		}
 	},{
 		"path": "pages/robot/index",
@@ -39,7 +40,14 @@
 			"navigationBarTitleText": "我的"
 		}
 	}
-	],
+	,{
+		"path" : "pages/list/index",
+		"style" : {
+			"navigationBarTitleText": "列表",
+			"enablePullDownRefresh": true
+		}
+	}
+    ],
     /* "condition": { //模式配置，仅开发期间生效
         "current": 0, //当前激活的模式（list 的索引项）
         "list": [{

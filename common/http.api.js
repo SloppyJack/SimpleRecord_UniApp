@@ -3,6 +3,7 @@ let indexUrl = '/ebapi/public_api/index';
 let recordInsertUrl = "/v1/record/insert"
 let getSpendTotalUrl = "v1/record/getSpendTotalInMonth";
 let getTopThreeSpendTotalUrl = "v1/record/getTopThreeSpendTotal"
+let getRecordListByMonthUrl = "v1/record/getRecordListByMonth";
 
 
 const install = (Vue, vm) => {
@@ -14,11 +15,13 @@ const install = (Vue, vm) => {
 	
 	let getTopThreeSpendTotal = (params) => vm.$u.get(getTopThreeSpendTotalUrl, params);
 	
+	let getRecordListByMonth = (params = {}) => vm.$u.post(getRecordListByMonthUrl, params);
+	
 	// 此处使用了传入的params参数，一切自定义即可
 	let getInfo = (params = {}) => vm.$u.post(indexUrl, params);
 	
 	// 将各个定义的接口名称，统一放进对象挂载到vm.$u.api(因为vm就是this，也即this.$u.api)下
-	vm.$u.api = {getSpendCategory, getInfo, recordInsert, getSpendTotal, getTopThreeSpendTotal};
+	vm.$u.api = {getSpendCategory, getInfo, recordInsert, getSpendTotal, getTopThreeSpendTotal, getRecordListByMonth};
 }
 
 export default {

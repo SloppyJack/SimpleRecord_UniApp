@@ -224,37 +224,46 @@ export default {
 					}
 				});
 			}
+		},
+		getSpendCategory() {
+			this.$u.api.getSpendCategory({recordTypeId: 2}).then(res => {
+				this.spendCategory = [];
+				res.forEach(n => {
+					var temp = {
+						'name': n.name,
+						'id': n.id
+					};
+					this.spendCategory.push(temp);
+				});
+			});
+			this.$u.api.getSpendCategory({recordTypeId: 1}).then(res => {
+				this.incomeCategory = [];
+				res.forEach(n => {
+					var temp = {
+						'name': n.name,
+						'id': n.id
+					};
+					this.incomeCategory.push(temp);
+				});
+				this.$refs.uToast.show({
+					title: '更新成功',
+					type: 'success'
+				});
+			})
 		}
 	},
 	onLoad() {
 		
 	},
-	onShow() {
-		this.$u.api.getSpendCategory({recordTypeId: 2}).then(res => {
-			this.spendCategory = [];
-			res.forEach(n => {
-				var temp = {
-					'name': n.name,
-					'id': n.id
-				};
-				this.spendCategory.push(temp);
-			});
-		});
-		this.$u.api.getSpendCategory({recordTypeId: 1}).then(res => {
-			this.incomeCategory = [];
-			res.forEach(n => {
-				var temp = {
-					'name': n.name,
-					'id': n.id
-				};
-				this.incomeCategory.push(temp);
-			});
-		})
-	},
 	// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 	onReady() {
 		this.$refs.sForm.setRules(this.sRules);
 		this.$refs.iForm.setRules(this.sRules);
+		this.getSpendCategory();
+	},
+	onPullDownRefresh() {
+		this.getSpendCategory();
+		uni.stopPullDownRefresh();
 	}
 };
 </script>
