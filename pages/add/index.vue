@@ -226,7 +226,7 @@ export default {
 			}
 		},
 		getSpendCategory() {
-			this.$u.api.getSpendCategory({recordTypeId: 2}).then(res => {
+			this.$u.api.getSpendCategory(2).then(res => {
 				this.spendCategory = [];
 				res.forEach(n => {
 					var temp = {
@@ -236,7 +236,7 @@ export default {
 					this.spendCategory.push(temp);
 				});
 			});
-			this.$u.api.getSpendCategory({recordTypeId: 1}).then(res => {
+			this.$u.api.getSpendCategory(1).then(res => {
 				this.incomeCategory = [];
 				res.forEach(n => {
 					var temp = {

@@ -79,7 +79,7 @@
 				})
 			},
 			getTopThreeSpendTotal() {
-				this.$u.api.getTopThreeSpendTotal({date: this.year + '-' + this.month}).then(res => {
+				this.$u.api.getTopThreeSpendTotal(this.year + '-' + this.month).then(res => {
 					// 清空数组
 					this.spendTotalCategory = [];
 					res.forEach((n, index) => {
@@ -99,7 +99,7 @@
 				});
 			},
 			getSpendTotal() {
-				this.$u.api.getSpendTotal({date: this.year + '-' + this.month}).then(res => {
+				this.$u.api.getSpendTotal(this.year + '-' + this.month).then(res => {
 					this.expendTotal = res[0];
 					this.incomeTotal = res[1];
 					this.getTopThreeSpendTotal();

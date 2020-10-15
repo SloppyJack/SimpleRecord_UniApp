@@ -1,27 +1,23 @@
-let getSpendCategoryUrl = '/v1/spendCategory/getByRecordType';
-let indexUrl = '/ebapi/public_api/index';
-let recordInsertUrl = "/v1/record/insert"
-let getSpendTotalUrl = "v1/record/getSpendTotalInMonth";
-let getTopThreeSpendTotalUrl = "v1/record/getTopThreeSpendTotal"
-let getRecordListByMonthUrl = "v1/record/getRecordListByMonth";
+let getSpendCategoryUrl = '/v1/spendCategory/recordTypeId/';
+let recordInsertUrl = "/v1/record"
+let spendTotalUrl = "v1/record/spendTotalInMonth/";
+let topThreeSpendTotalUrl = "v1/record/topThreeSpendCategoryTotal/"
+let recordListByMonthUrl = "v1/record/recordListByMonth";
 
 
 const install = (Vue, vm) => {
-	let getSpendCategory = (params) => vm.$u.get(getSpendCategoryUrl, params);
+	let getSpendCategory = (recordTypeId) => vm.$u.get(getSpendCategoryUrl + recordTypeId);
 	
 	let recordInsert = (params = {}) => vm.$u.post(recordInsertUrl, params);
 	
-	let getSpendTotal = (params) => vm.$u.get(getSpendTotalUrl, params);
+	let getSpendTotal = (date) => vm.$u.get(spendTotalUrl + date);
 	
-	let getTopThreeSpendTotal = (params) => vm.$u.get(getTopThreeSpendTotalUrl, params);
+	let getTopThreeSpendTotal = (date) => vm.$u.get(topThreeSpendTotalUrl + date);
 	
-	let getRecordListByMonth = (params = {}) => vm.$u.post(getRecordListByMonthUrl, params);
-	
-	// 此处使用了传入的params参数，一切自定义即可
-	let getInfo = (params = {}) => vm.$u.post(indexUrl, params);
+	let getRecordListByMonth = (params = {}) => vm.$u.post(recordListByMonthUrl, params);
 	
 	// 将各个定义的接口名称，统一放进对象挂载到vm.$u.api(因为vm就是this，也即this.$u.api)下
-	vm.$u.api = {getSpendCategory, getInfo, recordInsert, getSpendTotal, getTopThreeSpendTotal, getRecordListByMonth};
+	vm.$u.api = {getSpendCategory, recordInsert, getSpendTotal, getTopThreeSpendTotal, getRecordListByMonth};
 }
 
 export default {
