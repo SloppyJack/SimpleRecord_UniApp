@@ -43,8 +43,7 @@
 	,{
 		"path" : "pages/list/index",
 		"style" : {
-			"navigationBarTitleText": "列表",
-			"enablePullDownRefresh": true
+			"navigationBarTitleText": "列表"
 		}
 	}
     ],

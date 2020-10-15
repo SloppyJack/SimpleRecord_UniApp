@@ -93,8 +93,7 @@
 						this.spendTotalCategory.push(temp);
 					});
 					this.$refs.uToast.show({
-						title: '更新成功',
-						type: 'success'
+						title: '更新成功'
 					});
 				});
 			},

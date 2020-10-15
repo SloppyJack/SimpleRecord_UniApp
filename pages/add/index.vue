@@ -196,8 +196,7 @@ export default {
 							this.spendForm.categoryId = null;
 							this.spendForm.categoryName = "";
 							this.$refs.uToast.show({
-								title: '记账成功',
-								type: 'success'
+								title: '记账成功'
 							});
 						});
 					}
@@ -217,8 +216,7 @@ export default {
 							this.incomeForm.categoryId = null;
 							this.incomeForm.categoryName = "";
 							this.$refs.uToast.show({
-								title: '记账成功',
-								type: 'success'
+								title: '记账成功'
 							});
 						});
 					}
@@ -246,8 +244,7 @@ export default {
 					this.incomeCategory.push(temp);
 				});
 				this.$refs.uToast.show({
-					title: '更新成功',
-					type: 'success'
+					title: '更新成功'
 				});
 			})
 		}
