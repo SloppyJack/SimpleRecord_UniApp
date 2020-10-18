@@ -1,37 +1,39 @@
 <template>
 	<view>
-		<text class="example-info">列表组件可以在其中使用图标、略缩图或放置任何你想放的元素，使用场景如：导航菜单、列表、设置中心排版等</text>
+		<text class="example-info">{{recordList.length}}</text>
 		<uni-section title="基础用法" type="line"></uni-section>
-		<uni-list>
-			<uni-list-item title="列表文字" rightText="右侧文字" />
-			<uni-list-item title="列表文字" note="列表描述信息" rightText="右侧文字" />
-			<uni-list-item title="列表文字" rightText="右侧文字" />
-			<uni-list-item title="列表文字" note="列表描述信息" rightText="右侧文字" />
-			<uni-list-item title="列表文字" rightText="右侧文字" />
-			<uni-list-item title="列表文字" note="列表描述信息" rightText="右侧文字" />
-			<uni-list-item title="列表文字" rightText="右侧文字" />
-			<uni-list-item title="列表文字" note="列表描述信息" rightText="右侧文字" />
-			<uni-list-item title="列表文字" rightText="右侧文字" />
-			<uni-list-item title="列表文字" note="列表描述信息" rightText="右侧文字" />
-			<uni-list-item title="列表文字" rightText="右侧文字" />
-			<uni-list-item  clickable="false" title="列表文字" note="列表描述信息" rightText="右侧文字" >
-				
-			</uni-list-item>
-			
-		</uni-list>
-		<u-swipe-action :show="item.show" :index="index" 
+		<!-- <u-swipe-action :show="item.show" :index="index" 
 			v-for="(item, index) in list" :key="item.id" 
 			@click="click" @open="open"
 			:options="options"
 		>
 			<view class="item u-border-bottom">
 				<image mode="aspectFill" :src="item.images" />
-				<!-- 此层wrap在此为必写的，否则可能会出现标题定位错误 -->
 				<view class="title-wrap">
 					<text class="title u-line-2">{{ item.title }}</text>
 				</view>
 			</view>
-		</u-swipe-action>
+		</u-swipe-action> -->
+		<view v-for = "(item, index1) in recordList" :key="item.index1">
+			<uni-section :title="item.occurTime" type="line"/>
+			<u-swipe-action v-for="(record, index2) in item.list" :index="index2"
+				:key="record.id" :options="options">
+				<view >
+				
+						<u-row gutter="16">
+							<u-col span="3" offset="1">
+								<text class="title u-line-2">{{ record.spendCategoryName }}</text>
+							</u-col>
+							<u-col span="3" offset="1">
+								<text class="title u-line-2">{{ record.amount }}</text>
+							</u-col>
+							<u-col span="3" offset="1">
+								<text class="title u-line-2">{{ record.remarks }}</text>
+							</u-col>
+						</u-row>
+				</view>
+			</u-swipe-action>
+		</view>
 		<u-loadmore :status="status" />
 		<u-toast ref="uToast" />
 	</view>
@@ -53,26 +55,6 @@
 				recordTypeCode: 'expendType',
 				pageIndex: 0,
 				pageSize: 50,
-				list: [
-					{
-						id: 1,
-						title: '长安回望绣成堆，山顶千门次第开，一骑红尘妃子笑，无人知是荔枝来',
-						images: 'https://cdn.uviewui.com/uview/common/logo.png',
-						show: false
-					},
-					{
-						id: 2,
-						title: '新丰绿树起黄埃，数骑渔阳探使回，霓裳一曲千峰上，舞破中原始下来',
-						images: 'https://cdn.uviewui.com/uview/common/logo.png',
-						show: false
-					},
-					{
-						id: 3,
-						title: '登临送目，正故国晚秋，天气初肃。千里澄江似练，翠峰如簇',
-						images: 'https://cdn.uviewui.com/uview/common/logo.png',
-						show: false,
-					}
-				],
 				disabled: false,
 				btnWidth: 180,
 				show: false,
@@ -88,7 +70,8 @@
 							backgroundColor: '#dd524d'
 						}
 					}
-				]
+				],
+				recordList: []
 			};
 		},
 		methods: {
@@ -107,7 +90,7 @@
 			onReachBottom() {
 				console.log('loadmore');
 			},
-			getRecordListByMonth() {
+			getRecordListByMonth(init) {
 				var temp = {
 					'recordTypeCode': this.recordTypeCode,
 					'date': this.year + '-' + this.month,
@@ -116,11 +99,25 @@
 				};
 				console.log(temp);
 				this.$u.api.getRecordListByMonth(temp).then(res => {
-						console.log(res);
-						this.$refs.uToast.show({
-							title: '更新成功',
-							type: 'success'
-						});
+					if(init) {
+						this.recordList = [];
+					}
+					res.forEach(n => {
+						// 判断recordList的最后一个元素
+						if(this.recordList.length < 1 || this.recordList[this.recordList.length - 1].occurTime != n.occurTime) {
+							var temp = {
+								'occurTime': n.occurTime,
+								'list': [n]
+							};
+							this.recordList.push(temp);
+						} else{
+							this.recordList[this.recordList.length - 1].list.push(n);
+						}
+					});
+					console.log(this.recordList);
+					this.$refs.uToast.show({
+						title: '更新成功'
+					});
 				});
 			},
 			click(index, index1) {
