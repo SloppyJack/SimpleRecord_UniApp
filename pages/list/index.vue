@@ -10,10 +10,11 @@
 				</view>
 			</u-sticky>
 		</view>
-		<view class="item" v-for = "(item, index1) in recordList" :key="item.index1">
+		<uni-swipe-action>
+		<view class="item" v-for = "(item, index1) in recordList" :key="index1">
 			<u-section :title="item.occurTime" :right="false"></u-section>
-			<u-swipe-action v-for="(record, index2) in item.list" :show="record.show" :index="index1 + '-' +index2"
-				:key="record.id" :options="options" @click="click" @open="open">
+			<uni-swipe-action-item v-for="(record, index2) in item.list" :index="index2"
+				:key="record.id" :options="options" @click="click($event, index1 + '-' + index2)">
 				<view class="content-box" >
 						<u-row gutter="16">
 							<u-col span="3" offset="1">
@@ -27,10 +28,44 @@
 							</u-col>
 						</u-row>
 				</view>
-			</u-swipe-action>
+			</uni-swipe-action-item>
 		</view>
+		</uni-swipe-action>
 		<u-loadmore :status="status" @loadmore="loadmore" :load-text="loadText" />
 		<u-toast ref="uToast" />
+		<u-modal v-model="showModel" title="修改" @confirm="confirm" :mask-close-able="true" :show-cancel-button="true" :async-close="true">
+			<view class="model-wrap">
+				<u-row gutter="16">
+					<u-col span="3">
+						<view class="u-font-13 info">金额</view>
+					</u-col>
+					<u-col span="9">
+						<u-input disabled=true v-model="record.amount" @click="showKeyboard" />
+					</u-col>
+				</u-row>
+				<u-row gutter="16">
+					<u-col span="3">
+						<view class="u-font-13 info">日期</view>
+					</u-col>
+					<u-col span="9">
+						<u-input type="select" v-model="record.date" @click="showCalendar"/>
+					</u-col>
+				</u-row>
+				<u-row gutter="16">
+					<u-col span="3">
+						<view class="u-font-13 info">备注</view>
+					</u-col>
+					<u-col span="9">
+						<u-input v-model="record.remarks"/>
+					</u-col>
+				</u-row>
+			</view>
+		</u-modal>
+		<!-- 数组键盘 -->
+		<u-keyboard mode="number" cancel-text="清除" @change="changeKeyboard" @backspace="backspaceKeyboard" @cancel="clearKeyboard" 
+		v-model="showKeyBoardFlag"></u-keyboard>
+		<!-- 日期选择器 -->
+		<u-calendar v-model="showCalendarFlag" mode="date" @change="changeCalendar"/>
 	</view>
 </template>
 
@@ -50,7 +85,7 @@
 				pageSize: 50,
 				options:[
 					{
-						text: '取消',
+						text: '修改',
 						style: {
 							backgroundColor: '#007aff'
 						}
@@ -74,7 +109,18 @@
 					}
 				],
 				selectedMonth: '',
-				selectedCategory: ''
+				selectedCategory: '',
+				showModel: false,
+				record: {
+					index: '',
+					id: '',
+					spendCategoryId: '',
+					amount: '',
+					date: '',
+					remarks: ''
+				},
+				showKeyBoardFlag: false,
+				showCalendarFlag: false
 			};
 		},
 		methods: {
@@ -101,7 +147,6 @@
 						this.status = 'nomore';
 					}
 					res.forEach(n => {
-						n['show'] = false;
 						// 判断recordList的最后一个元素
 						if(this.recordList.length < 1 || this.recordList[this.recordList.length - 1].occurTime != n.occurTime) {
 							var temp = {
@@ -119,35 +164,21 @@
 					});
 				});
 			},
-			click(index, index1) {
+			click(e, index) {
 				var temp1 = Number(index.split('-')[0]);
 				var temp2 = Number(index.split('-')[1]);
-				if(index1 == 1) {
-					this.recordList[temp1].list.splice(tmep2, 1);
-					this.$u.toast(`删除了第${tmep2}个cell`);
+				if(e.index == 0) {
+					// 赋值
+					this.record.index = index;
+					this.record.id = this.recordList[temp1].list[temp2].id;
+					this.record.spendCategoryId = this.recordList[temp1].list[temp2].spendCategoryId;
+					this.record.amount = this.recordList[temp1].list[temp2].amount;
+					this.record.date = this.recordList[temp1].list[temp2].occurTime;
+					this.record.remarks = this.recordList[temp1].list[temp2].remarks;
+					this.showModel = true;
 				} else {
-					this.recordList[temp1].list[temp2].show = false;
-					this.$u.toast(`取消成功`);
+					this.$u.toast('点击了删除');
 				}
-			},
-			// 如果打开一个的时候，不需要关闭其他，则无需实现本方法
-			open(index) {
-				var temp1 = Number(index.split('-')[0]);
-				var temp2 = Number(index.split('-')[1]);
-				this.recordList[temp1].list[temp2].show = true;
-				// 将其它的show置为false
-				this.recordList.map((val, idx) => {
-					if(temp1 == idx) {
-						val.list.forEach((n, index) => {
-							if(temp2 != index)
-								n.show = false;
-						});
-					} else{
-						val.list.forEach(n => n.show = false);
-					}
-					// if(temp2 != idx) this.recordList[temp1].list[idx].show = false;
-				});
-				console.log(this.recordList);
 			},
 			getLastSixMon() {
 				var data = new Date();
@@ -177,6 +208,35 @@
 			},
 			changeCagegory(val) {
 				this.getRecordListByMonth(true);
+			},
+			confirm() {
+				console.log(this.record);
+				this.$u.get('http://192.168.1.4:5000/api/v1/record/test').then(res => {
+								console.log(res);
+								this.showModel = false;
+							});
+			},
+			showKeyboard() {
+				this.showKeyBoardFlag = true;
+			},
+			// 数字键盘改变的监听事件
+			changeKeyboard(val) {
+				this.record.amount += val;
+			},
+			// 退格键被点击
+			backspaceKeyboard() {
+				// 删除value的最后一个字符
+				if(this.record.amount.length) 
+					this.record.amount = this.record.amount.substr(0, this.record.amount.length - 1);
+			},
+			clearKeyboard() {
+				this.record.amount = '';
+			},
+			showCalendar() {
+				this.showCalendarFlag = true;
+			},
+			changeCalendar(e) {
+				this.record.date = e.result;
 			}
 		},
 		onReady() {
@@ -218,5 +278,13 @@
 	
 	.item {
 		padding-top: 10rpx;
+	}
+	
+	.model-wrap{
+		padding: 24rpx;
+	}
+	
+	.info{
+		padding-top: 18rpx;
 	}
 </style>

@@ -44,6 +44,16 @@
 		"path" : "pages/list/index",
 		"style" : {
 			"navigationBarTitleText": "列表",
+			"enablePullDownRefresh": true,
+			"disableScroll":true,
+			"app-plus":{
+				"bounce":"none"
+			}
+		}
+	},{
+		"path" : "pages/test/index",
+		"style" : {
+			"navigationBarTitleText": "测试页面",
 			"enablePullDownRefresh": true
 		}
 	}

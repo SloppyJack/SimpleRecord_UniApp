@@ -165,7 +165,6 @@ export default {
 			}
 		},
 		changeCalendar(e) {
-			console.log(e.result);
 			if(this.current == 0) {
 				this.spendForm.date = e.result;
 			} else{

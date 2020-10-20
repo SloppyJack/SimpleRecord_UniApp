@@ -9,7 +9,7 @@ const store = new Vuex.Store({
 		userInfo: {
 			id: '',
 			name: "",
-			token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlsibG9nOnF1ZXJ5QWxsIiwibG9nOmZpbmQiLCJpbmZvOnRlc3QiLCJpbmZvOnJlYWRMaW4iLCJsb2c6cXVlcnlIaXN0b3J5Il0sImV4cCI6MTYwMzEyNjkyMCwiaWF0IjoxNjAzMTA1MzIwfQ.hQKlzz1g2Z7t9Hcb5tw3Y-ztira7XSdj8dbWc6tpWShm0tx46AtrDAJ-yKM82-ttHQDoNAiWJM1v4Q8EXg4OAw',
+			token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlsibG9nOnF1ZXJ5QWxsIiwibG9nOmZpbmQiLCJpbmZvOnRlc3QiLCJpbmZvOnJlYWRMaW4iLCJsb2c6cXVlcnlIaXN0b3J5Il0sImV4cCI6MTYwMzIxMzkxNSwiaWF0IjoxNjAzMTkyMzE1fQ.OZr7kE2NLKgxUoGy1V13tVH84cq8jGzOHucas0LkGFLosy-F04ld55Xm9ulF7WqTzSis8P-6op0WEskO3bLCHQ',
 			email: '',
 			sex: '',
 			avatar: ''
