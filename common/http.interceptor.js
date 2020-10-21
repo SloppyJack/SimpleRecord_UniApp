@@ -17,7 +17,7 @@ const install = (Vue, vm) => {
 		config.header.token = vm.$store.state.userInfo.token;
 		// 最后需要将config进行return
 		return config;
-	}
+	};
 	
 	// 响应拦截，判断状态码是否通过
 	Vue.prototype.$u.http.interceptor.response = (res) => {
@@ -31,7 +31,7 @@ const install = (Vue, vm) => {
 			setTimeout(() => {
 				// 此为uView的方法，详见路由相关文档
 				vm.$u.route('pages/login/index')
-			}, 1500)
+			}, 1500);
 			return false;
 		} else {
 			console.log(res);

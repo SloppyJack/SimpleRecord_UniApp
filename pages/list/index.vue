@@ -48,7 +48,7 @@
 						<view class="u-font-13 info">日期</view>
 					</u-col>
 					<u-col span="9">
-						<u-input type="select" v-model="record.date" @click="showCalendar"/>
+						<u-input type="select" v-model="record.occurTime" @click="showCalendar"/>
 					</u-col>
 				</u-row>
 				<u-row gutter="16">
@@ -112,11 +112,12 @@
 				selectedCategory: '',
 				showModel: false,
 				record: {
-					index: '',
+					parentIndex: '',	// recordList数组下标
+					index: '',	// recordList中list的下标
 					id: '',
 					spendCategoryId: '',
 					amount: '',
-					date: '',
+					occurTime: '',
 					remarks: ''
 				},
 				showKeyBoardFlag: false,
@@ -169,11 +170,12 @@
 				var temp2 = Number(index.split('-')[1]);
 				if(e.index == 0) {
 					// 赋值
-					this.record.index = index;
+					this.record.parentIndex = temp1;
+					this.record.index = temp2;
 					this.record.id = this.recordList[temp1].list[temp2].id;
 					this.record.spendCategoryId = this.recordList[temp1].list[temp2].spendCategoryId;
 					this.record.amount = this.recordList[temp1].list[temp2].amount;
-					this.record.date = this.recordList[temp1].list[temp2].occurTime;
+					this.record.occurTime = this.recordList[temp1].list[temp2].occurTime;
 					this.record.remarks = this.recordList[temp1].list[temp2].remarks;
 					this.showModel = true;
 				} else {
@@ -211,10 +213,22 @@
 			},
 			confirm() {
 				console.log(this.record);
-				this.$u.get('http://192.168.1.4:5000/api/v1/record/test').then(res => {
-								console.log(res);
-								this.showModel = false;
-							});
+				var temp = {
+					'spendCategoryId': this.record.spendCategoryId,
+					'amount': this.record.amount,
+					'occurTime': this.record.occurTime,
+					'remarks': this.record.remarks
+				};
+				this.$u.api.updateRecord(this.record.id, temp).then(res => {
+					var recordTemp = this.recordList[this.record.parentIndex].list[this.record.index];
+					recordTemp.occurTime = this.record.occurTime;
+					recordTemp.remarks = this.record.remarks;
+					recordTemp.amount = this.record.amount;
+					this.showModel = false;
+					this.$refs.uToast.show({
+						title: '更新成功'
+					});
+				});
 			},
 			showKeyboard() {
 				this.showKeyBoardFlag = true;
@@ -236,7 +250,7 @@
 				this.showCalendarFlag = true;
 			},
 			changeCalendar(e) {
-				this.record.date = e.result;
+				this.record.occurTime = e.result;
 			}
 		},
 		onReady() {
