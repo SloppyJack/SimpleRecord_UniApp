@@ -17,7 +17,7 @@ const install = (Vue, vm) => {
 	
 	let getRecordListByMonth = (params = {}) => vm.$u.post(recordListByMonthUrl, params);
 	
-	let updateRecord = (id, params) => vm.$u.put(updateRecordUrl + id, params);
+	let updateRecord = (id, params = {}) => vm.$u.put(updateRecordUrl + id, params);
 	
 	// 将各个定义的接口名称，统一放进对象挂载到vm.$u.api(因为vm就是this，也即this.$u.api)下
 	vm.$u.api = {getSpendCategory, recordInsert, getSpendTotal, getTopThreeSpendTotal, getRecordListByMonth, updateRecord};

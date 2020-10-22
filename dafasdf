@@ -1,0 +1,119 @@
+[33mcommit 016120d9087ca8af5117c795c05e27439c10cd5f[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: SloppyJack <312883327@qq.com>
+Date:   Wed Oct 21 22:55:54 2020 +0800
+
+    todo：解决put请求出现403的Bug
+
+[33mcommit 9991bad525b4e81c7ddc31ebd10de03beb672936[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: SloppyJack <312883327@qq.com>
+Date:   Tue Oct 20 23:10:47 2020 +0800
+
+    fix：解决SwipeAction无法关闭的问题，并优化了页面。
+
+[33mcommit fade6bb4843fabe8168e793397f9d73dbc4307ac[m
+Author: SloppyJack <312883327@qq.com>
+Date:   Mon Oct 19 22:27:04 2020 +0800
+
+    todo：解决SwipeAction关闭后会再次触发open的Bug
+
+[33mcommit c7ae919e638af29295f1cfb95cfa3672082c26ac[m
+Author: SloppyJack <312883327@qq.com>
+Date:   Mon Oct 19 19:13:19 2020 +0800
+
+    feature：change token
+
+[33mcommit a8d3c6dbd915cd0317c7ff4b83ede07b8f3a6dc8[m
+Author: = <=>
+Date:   Mon Oct 19 00:12:31 2020 +0800
+
+    todo：记账月份列表页面需优化
+
+[33mcommit f2036b2fb45bb766f808b32a4d0792edfd05a2bb[m
+Author: = <=>
+Date:   Thu Oct 15 23:06:18 2020 +0800
+
+    todo：完成列表页面的开发及逻辑处理
+
+[33mcommit 81b81564419e3e0c222c486b9b73badf5b5b8114[m
+Author: = <=>
+Date:   Thu Oct 15 22:46:55 2020 +0800
+
+    feature：修改Http接口风格为ResultFul
+
+[33mcommit 2cb6f550e9ec7d6cef7bd8dcf388ef85a9c662bf[m
+Author: = <=>
+Date:   Thu Oct 15 00:25:27 2020 +0800
+
+    todo：完成记账记录展示
+
+[33mcommit 3363fdaf0824f0791e38d53eac1a5e828b84170c[m
+Author: = <=>
+Date:   Tue Oct 13 21:18:14 2020 +0800
+
+    feature：首页页面更新
+
+[33mcommit a139dc112e5c30a5e46dd177b2adabf3c6e3ffab[m
+Author: = <=>
+Date:   Mon Oct 12 23:14:41 2020 +0800
+
+    fix：删除冗余文件
+
+[33mcommit 0e301d62b7862b76585abf9888acda8127e628fa[m
+Author: = <=>
+Date:   Mon Oct 12 23:12:32 2020 +0800
+
+    feature：更新了部分页并解决了部分Bug
+
+[33mcommit 6d9ed91caeb63c8b6f5fa03610438c608d3c4fbd[m
+Author: SloppyJack <itsbintnt@163.com>
+Date:   Mon Sep 21 23:12:31 2020 +0800
+
+    feature：整合uview的tabbar
+
+[33mcommit 5c9de8ace577d9af007971fa245d88a289124425[m
+Author: SloppyJack <itsbintnt@163.com>
+Date:   Tue Sep 15 22:08:04 2020 +0800
+
+    feature：新增页面修及修改部分Bug
+
+[33mcommit 5b3674a9c70d5e02547f3de3d1d1cbca46aec3cf[m
+Author: SloppyJack <itsbintnt@163.com>
+Date:   Mon Sep 14 22:00:39 2020 +0800
+
+    feature：新增请求配置及接口
+
+[33mcommit 8ff32c4b5f079425455e70ed18b95fff2861e822[m
+Author: SloppyJack <itsbintnt@163.com>
+Date:   Mon Sep 14 19:33:28 2020 +0800
+
+    fix：删除components组件库
+
+[33mcommit 226d52ca1d4824f81973e01d6aea45e53f1c8d6b[m
+Author: SloppyJack <itsbintnt@163.com>
+Date:   Sun Sep 13 22:17:50 2020 +0800
+
+    feature：新增登录
+
+[33mcommit 524d1e820875252c5e99ece095416e97f8fa2df5[m
+Author: SloppyJack <itsbintnt@163.com>
+Date:   Sun Sep 13 18:11:53 2020 +0800
+
+    add：新增Readme
+
+[33mcommit 1d23fbd0accbd7b9d6fcb095af922b8f86a0eddc[m
+Author: SloppyJack <itsbintnt@163.com>
+Date:   Sun Sep 13 18:09:38 2020 +0800
+
+    整合uView
+
+[33mcommit e9acba658c65de2126fe8c9d0d037def1cc044a5[m
+Author: SloppyJack <itsbintnt@163.com>
+Date:   Sun Sep 13 18:05:25 2020 +0800
+
+    Signed-off-by: SloppyJack <itsbintnt@163.com>
+
+[33mcommit 600c4898bf7996216a78ad9fe06b63acecfc3173[m
+Author: SloppyJack <312883327@qq.com>
+Date:   Thu Sep 10 22:19:53 2020 +0800
+
+    初始化项目

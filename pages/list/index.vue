@@ -137,7 +137,7 @@
 					this.pageIndex = 0;
 					this.status = 'loadmore';
 				}
-				var temp = {
+				let temp = {
 					'recordTypeCode': this.recordTypeCode,
 					'date': this.date,
 					'pageIndex': this.pageIndex,
@@ -150,7 +150,7 @@
 					res.forEach(n => {
 						// 判断recordList的最后一个元素
 						if(this.recordList.length < 1 || this.recordList[this.recordList.length - 1].occurTime != n.occurTime) {
-							var temp = {
+							let temp = {
 								'occurTime': n.occurTime,
 								'list': [n]
 							};
@@ -166,8 +166,8 @@
 				});
 			},
 			click(e, index) {
-				var temp1 = Number(index.split('-')[0]);
-				var temp2 = Number(index.split('-')[1]);
+				let temp1 = Number(index.split('-')[0]);
+				let temp2 = Number(index.split('-')[1]);
 				if(e.index == 0) {
 					// 赋值
 					this.record.parentIndex = temp1;
@@ -177,19 +177,20 @@
 					this.record.amount = this.recordList[temp1].list[temp2].amount;
 					this.record.occurTime = this.recordList[temp1].list[temp2].occurTime;
 					this.record.remarks = this.recordList[temp1].list[temp2].remarks;
+					this.date = this.recordList[temp1].list[temp2].occurTime;
 					this.showModel = true;
 				} else {
 					this.$u.toast('点击了删除');
 				}
 			},
 			getLastSixMon() {
-				var data = new Date();
+				let data = new Date();
 				//获取年
-				var year = data.getFullYear();
+				let year = data.getFullYear();
 				//获取月
-				var mon = data.getMonth() + 1;
-				var arry = new Array();
-				for (var i = 0; i < 6; i++) {
+				let mon = data.getMonth() + 1;
+				let arry = new Array();
+				for (let i = 0; i < 6; i++) {
 					if (mon <= 0) {
 						year = year - 1;
 						mon = mon + 12;
@@ -213,17 +214,14 @@
 			},
 			confirm() {
 				console.log(this.record);
-				var temp = {
+				let temp = {
 					'spendCategoryId': this.record.spendCategoryId,
 					'amount': this.record.amount,
 					'occurTime': this.record.occurTime,
 					'remarks': this.record.remarks
 				};
 				this.$u.api.updateRecord(this.record.id, temp).then(res => {
-					var recordTemp = this.recordList[this.record.parentIndex].list[this.record.index];
-					recordTemp.occurTime = this.record.occurTime;
-					recordTemp.remarks = this.record.remarks;
-					recordTemp.amount = this.record.amount;
+					this.rearrangeList();
 					this.showModel = false;
 					this.$refs.uToast.show({
 						title: '更新成功'
@@ -251,6 +249,27 @@
 			},
 			changeCalendar(e) {
 				this.record.occurTime = e.result;
+			},
+			// 根据列表下表，最高效率重排列表
+			rearrangeList() {
+				let temp = this.recordList[this.record.parentIndex];
+				// 如没有修改日期则只需更新list中的元素
+				if(temp.occurTime == this.record.occurTime) {
+					temp.list[this.record.index].occurTime = this.record.occurTime;
+					temp.list[this.record.index].remarks = this.record.remarks;
+					temp.list[this.record.index].amount = this.record.amount;
+					return;
+				}
+				let recordTemp = this.$u.deepClone(temp.list[this.record.index]);
+				// 如修改的recordList中的list大小为1，则直接删除
+				if(temp.list.length == 1) {
+					this.recordList.splice(this.record.parentIndex, 1);
+				} else {
+					// 删除list中的执行的元素
+					temp.list.splice(this.record.index, 1);
+				}
+				// 默认加到list的最后面
+				this.recordList[this.recordList.length - 1].list.push(recordTemp);
 			}
 		},
 		onReady() {
