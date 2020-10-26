@@ -33,7 +33,7 @@
 		</uni-swipe-action>
 		<u-loadmore :status="status" @loadmore="loadmore" :load-text="loadText" />
 		<u-toast ref="uToast" />
-		<u-modal v-model="showModel" title="修改" @confirm="confirm" :mask-close-able="true" :show-cancel-button="true" :async-close="true">
+		<u-modal v-model="showUpdateModel" title="修改" @confirm="confirmUpdate" :mask-close-able="true" :show-cancel-button="true" :async-close="true">
 			<view class="model-wrap">
 				<u-row gutter="16">
 					<u-col span="3">
@@ -66,6 +66,7 @@
 		v-model="showKeyBoardFlag"></u-keyboard>
 		<!-- 日期选择器 -->
 		<u-calendar v-model="showCalendarFlag" mode="date" @change="changeCalendar"/>
+		<u-modal v-model="showDelModel" :content="'确定要删除吗?'" :mask-close-able="true" @confirm="confirmDel" :show-cancel-button="true"/>
 	</view>
 </template>
 
@@ -110,7 +111,7 @@
 				],
 				selectedMonth: '',
 				selectedCategory: '',
-				showModel: false,
+				showUpdateModel: false,
 				record: {
 					parentIndex: '',	// recordList数组下标
 					index: '',	// recordList中list的下标
@@ -121,7 +122,8 @@
 					remarks: ''
 				},
 				showKeyBoardFlag: false,
-				showCalendarFlag: false
+				showCalendarFlag: false,
+				showDelModel: false
 			};
 		},
 		methods: {
@@ -168,19 +170,19 @@
 			click(e, index) {
 				let temp1 = Number(index.split('-')[0]);
 				let temp2 = Number(index.split('-')[1]);
+				// 赋值
+				this.record.parentIndex = temp1;
+				this.record.index = temp2;
+				this.record.id = this.recordList[temp1].list[temp2].id;
+				this.record.spendCategoryId = this.recordList[temp1].list[temp2].spendCategoryId;
+				this.record.amount = this.recordList[temp1].list[temp2].amount;
+				this.record.occurTime = this.recordList[temp1].list[temp2].occurTime;
+				this.record.remarks = this.recordList[temp1].list[temp2].remarks;
+				this.date = this.recordList[temp1].list[temp2].occurTime;
 				if(e.index == 0) {
-					// 赋值
-					this.record.parentIndex = temp1;
-					this.record.index = temp2;
-					this.record.id = this.recordList[temp1].list[temp2].id;
-					this.record.spendCategoryId = this.recordList[temp1].list[temp2].spendCategoryId;
-					this.record.amount = this.recordList[temp1].list[temp2].amount;
-					this.record.occurTime = this.recordList[temp1].list[temp2].occurTime;
-					this.record.remarks = this.recordList[temp1].list[temp2].remarks;
-					this.date = this.recordList[temp1].list[temp2].occurTime;
-					this.showModel = true;
+					this.showUpdateModel = true;
 				} else {
-					this.$u.toast('点击了删除');
+					this.showDelModel = true;
 				}
 			},
 			getLastSixMon() {
@@ -212,7 +214,7 @@
 			changeCagegory(val) {
 				this.getRecordListByMonth(true);
 			},
-			confirm() {
+			confirmUpdate() {
 				console.log(this.record);
 				let temp = {
 					'spendCategoryId': this.record.spendCategoryId,
@@ -222,7 +224,7 @@
 				};
 				this.$u.api.updateRecord(this.record.id, temp).then(res => {
 					this.rearrangeList();
-					this.showModel = false;
+					this.showUpdateModel = false;
 					this.$refs.uToast.show({
 						title: '更新成功'
 					});
@@ -249,6 +251,17 @@
 			},
 			changeCalendar(e) {
 				this.record.occurTime = e.result;
+			},
+			confirmDel() {
+				console.log(this.record.id);
+				this.$u.api.delRecord(this.record.id).then(res => {
+					// 删除元素
+					this.recordList[this.record.parentIndex].list.splice(this.record.index, 1);
+					this.showDelModel = false;
+					this.$refs.uToast.show({
+						title: '删除成功'
+					});
+				});
 			},
 			// 根据列表下表，最高效率重排列表
 			rearrangeList() {
