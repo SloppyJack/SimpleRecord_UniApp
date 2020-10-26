@@ -45,7 +45,6 @@
 		"style" : {
 			"navigationBarTitleText": "列表",
 			"enablePullDownRefresh": true,
-			"disableScroll":true,
 			"app-plus":{
 				"bounce":"none"
 			}

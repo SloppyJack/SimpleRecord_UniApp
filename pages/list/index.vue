@@ -297,6 +297,9 @@
 </script>
 
 <style lang="scss" scoped>
+	.page {
+		padding-bottom: 40rpx;
+	}
 	.sticky {
 		width: 750rpx;
 		height: 120rpx;
@@ -304,6 +307,10 @@
 		color: #fff;
 		padding: 24rpx;
 		font-size: 36rpx;
+	}
+	
+	.scroll-Y {
+		height: 600rpx;
 	}
 	
 	.content-box {
