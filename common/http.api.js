@@ -2,7 +2,7 @@ let getSpendCategoryUrl = '/v1/spendCategory/recordTypeId/';
 let recordInsertUrl = "/v1/record"
 let spendTotalUrl = "v1/record/spendTotalInMonth/";
 let topThreeSpendTotalUrl = "v1/record/topThreeSpendCategoryTotal/"
-let recordListByMonthUrl = "v1/record/recordListByMonth";
+let recordListByMonthUrl = "v1/record/listByMonth";
 let updateRecordUrl = "v1/record/"
 let delRecordUrl = "v1/record/"
 
