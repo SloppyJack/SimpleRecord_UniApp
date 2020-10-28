@@ -5,6 +5,7 @@ let topThreeSpendTotalUrl = "v1/record/topThreeSpendCategoryTotal/"
 let recordListByMonthUrl = "v1/record/listByMonth";
 let updateRecordUrl = "v1/record/"
 let delRecordUrl = "v1/record/"
+let latestSixMonthListUrl = "v1/record/latestSixMonthList"
 
 
 const install = (Vue, vm) => {
@@ -22,9 +23,11 @@ const install = (Vue, vm) => {
 	
 	let delRecord = (id) => vm.$u.delete(delRecordUrl + id);
 	
+	let getLatestSixMonthList = (params = {}) => vm.$u.post(latestSixMonthListUrl, params);
+	
 	// 将各个定义的接口名称，统一放进对象挂载到vm.$u.api(因为vm就是this，也即this.$u.api)下
 	vm.$u.api = {getSpendCategory, recordInsert, getSpendTotal, getTopThreeSpendTotal, getRecordListByMonth, updateRecord,
-				delRecord};
+				delRecord, getLatestSixMonthList};
 }
 
 export default {
