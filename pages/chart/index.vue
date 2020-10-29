@@ -1,19 +1,54 @@
 <template>
 	<view>
-		<view class="u-page">
-			<view>
-				<u-subsection :list="tabList" active-color="#2979ff" :current="1"></u-subsection>
+		<view class="wrap">
+			<view class="u-tabs-box">
+				<u-tabs-swiper activeColor="#5098FF" ref="tabs" :list="tabList" :current="current" @change="tabChange" :is-scroll="false" swiperWidth="750"></u-tabs-swiper>
 			</view>
-			<view class="qiun-padding">
-			<view class="qiun-columns">
-				<view class="qiun-bg-white qiun-title-bar qiun-common-mt" >
-					<view class="qiun-title-dot-light">近六个月收支分析</view>
-				</view>
-				<view class="qiun-charts" >
-					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchLineA"></canvas>
-				</view>
-			</view>
-			</view>
+			<swiper class="swiper-box" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
+				<swiper-item class="swiper-item">
+						<view>
+							<u-empty text="如何展示周数据呢？😊" mode="list" margin-top="100"></u-empty>
+						</view>
+				</swiper-item>
+				<swiper-item class="swiper-item">
+						<view>
+							<view class="qiun-padding">
+							<view class="qiun-columns">
+								<view class="qiun-bg-white qiun-title-bar qiun-common-mt" >
+									<view class="qiun-title-dot-light">近六个月收支分析</view>
+								</view>
+								<view class="qiun-charts" >
+									<canvas canvas-id="canvasLineB" id="canvasLineB" class="charts" @touchstart="touchLineB"></canvas>
+								</view>
+							</view>
+							</view>
+						</view>
+				</swiper-item>
+				<swiper-item class="swiper-item u-p-b-x-50">
+						<view>
+							<view class="qiun-padding">
+							<view class="qiun-columns">
+								<view class="qiun-bg-white qiun-title-bar qiun-common-mt" >
+									<view class="qiun-title-dot-light">年支出分析</view>
+								</view>
+								<view class="qiun-charts" >
+									<canvas canvas-id="canvaPieA" id="canvaPieA" class="charts" @touchstart="touchPieA"></canvas>
+								</view>
+							</view>
+							</view>
+							<view class="qiun-padding">
+							<view class="qiun-columns">
+								<view class="qiun-bg-white qiun-title-bar qiun-common-mt" >
+									<view class="qiun-title-dot-light">年收入分析</view>
+								</view>
+								<view class="qiun-charts" >
+									<canvas canvas-id="canvaPieB" id="canvaPieB" class="charts" @touchstart="touchPieB"></canvas>
+								</view>
+							</view>
+							</view>
+						</view>
+				</swiper-item>
+			</swiper>
 		</view>
 		<u-tabbar :list="vuex_tabbar" :mid-button="true" :bg-color="tabbarBgColor" :active-color="tabbarActiveColor"></u-tabbar>
 	</view>
@@ -22,8 +57,10 @@
 <script>
 	import {mapState} from 'vuex';
 	import uCharts from '../../js_sdk/u-charts/u-charts/u-charts.js';
-		var _self;
-		var canvaLineA=null;
+	var _self;
+	var canvaLineB=null;
+	var canvaPieA = null;
+	var canvaPieB = null;
 	
 	export default {
 		computed: {
@@ -43,20 +80,32 @@
 						name: '年'
 					}
 				],
-				current: 2,
+				current: 1,
+				swiperCurrent: 1,
 				cWidth:'',
-								cHeight:'',
-								pixelRatio:1,
+				cHeight:'',
+				pixelRatio:1,
+				firstIn: [true, true, true]	// 防止每次获取数据会卡顿
 			}
 		},
-		onLoad() {
-			_self = this;
-						this.cWidth=uni.upx2px(750);
-						this.cHeight=uni.upx2px(500);
-						this.getServerData();
-		},
 		methods: {
-			getServerData(){
+			tabChange(index) {
+				this.swiperCurrent = index;
+			},
+			transition({ detail: { dx } }) {
+				this.$refs.tabs.setDx(dx);
+			},
+			animationfinish({ detail: { current } }) {
+				this.$refs.tabs.setFinishCurrent(current);
+				this.swiperCurrent = current;
+				if(current == 1 && this.firstIn[1]) {
+					this.getLineBData();
+				} else if(current == 2 && this.firstIn[2]) {
+					this.getPieData();
+				}
+				this.current = current;
+			},
+			getLineBData(){
 				this.$u.api.getLatestSixMonthList({
 					beginDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1 -5),
 					recordTypeCode: 'expendType'
@@ -65,15 +114,16 @@
 						beginDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1 -5),
 						recordTypeCode: 'incomeType'
 					}).then(incomeRes => {
-						console.log(expendRes);
-						let LineA={categories:[],series:[]};
+						// 将标志设为F
+						this.firstIn[1] = false;
+						let LineB={categories:[],series:[]};
 						let expendTemp = {
 							name: '支出',
 							data: [],
 							color: '#fa3534'
 						};
 						expendRes.forEach(n => {
-							LineA.categories.push(n.occurMonth);
+							LineB.categories.push(n.occurMonth);
 							expendTemp.data.push(n.total);
 						});
 						let incomeTemp = {
@@ -84,13 +134,13 @@
 						incomeRes.forEach(n => {
 							incomeTemp.data.push(n.total);
 						})
-						LineA.series.push(expendTemp, incomeTemp);
-						_self.showLineA("canvasLineA",LineA);
+						LineB.series.push(expendTemp, incomeTemp);
+						_self.showLineB("canvasLineB",LineB);
 					});
 				});
 			},
-			showLineA(canvasId,chartData){
-				canvaLineA=new uCharts({
+			showLineB(canvasId,chartData){
+				canvaLineB=new uCharts({
 					$this:_self,
 					canvasId: canvasId,
 					type: 'line',
@@ -128,18 +178,136 @@
 				});
 				
 			},
-			touchLineA(e) {
-				canvaLineA.showToolTip(e, {
+			touchLineB(e) {
+				canvaLineB.showToolTip(e, {
 					format: function (item, category) {
 						return category + ' ' + item.name + ':' + item.data 
 					}
 				});
+			},
+			showPieA(canvasId,chartData){
+				canvaPieA=new uCharts({
+					$this:_self,
+					canvasId: canvasId,
+					type: 'pie',
+					fontSize:11,
+					legend:{
+					  show:true,
+					  position:'left',
+					  float:'center',
+					  itemGap:10,
+					  padding:5,
+					  lineHeight:26,
+					  margin:5,
+					  borderWidth :1
+					},
+					background:'#FFFFFF',
+					pixelRatio:_self.pixelRatio,
+					series: chartData.series,
+					animation: true,
+					width: _self.cWidth*_self.pixelRatio,
+					height: _self.cHeight*_self.pixelRatio,
+					dataLabel: true,
+					extra: {
+						pie: {
+						  labelWidth:15
+						}
+					},
+				});
+			},
+			showPieB(canvasId,chartData){
+				canvaPieB=new uCharts({
+					$this:_self,
+					canvasId: canvasId,
+					type: 'pie',
+					fontSize:11,
+					legend:{
+					  show:true,
+					  position:'left',
+					  float:'center',
+					  itemGap:10,
+					  padding:5,
+					  lineHeight:26,
+					  margin:5,
+					  borderWidth :1
+					},
+					background:'#FFFFFF',
+					pixelRatio:_self.pixelRatio,
+					series: chartData.series,
+					animation: true,
+					width: _self.cWidth*_self.pixelRatio,
+					height: _self.cHeight*_self.pixelRatio,
+					dataLabel: true,
+					extra: {
+						pie: {
+						  labelWidth:15
+						}
+					},
+				});
+			},
+			touchPieA(e){
+				canvaPieA.showToolTip(e, {
+					format: function (item) {
+						return item.name + ':' + item.data 
+					}
+				});
+			},
+			touchPieB(e){
+				canvaPieB.showToolTip(e, {
+					format: function (item) {
+						return item.name + ':' + item.data 
+					}
+				});
+			},
+			getPieData() {
+				this.$u.api.getSpendCategoryTotal(
+					new Date().getFullYear(),
+					'expendType'
+				).then(res => {
+					let pieDataA = {series:[]};;
+					res.forEach(n => {
+						let temp = {name: n.spendCategoryName, data: n.total};
+						pieDataA.series.push(temp);
+					});
+					this.showPieA("canvaPieA",pieDataA);
+				});
+				this.$u.api.getSpendCategoryTotal(
+					new Date().getFullYear(),
+					'incomeType'
+				).then(res => {
+					// 将标志设为F
+					this.firstIn[2] = false;
+					let pieDataB = {series:[]};;
+					res.forEach(n => {
+						let temp = {name: n.spendCategoryName, data: n.total};
+						pieDataB.series.push(temp);
+					});
+					this.showPieB("canvaPieB",pieDataB);
+				});
 			}
+		},
+		onLoad() {
+			_self = this;
+			this.cWidth=uni.upx2px(750);
+			this.cHeight=uni.upx2px(500);
+			this.getLineBData();
 		}
 	}
 </script>
 
 <style>
+	.wrap {
+		display: flex;
+		flex-direction: column;
+		height: calc(100vh - var(--window-top));
+		width: 100%;
+	}
+	.swiper-box {
+		flex: 1;
+	}
+	.swiper-item {
+		height: 100%;
+	}
 	page{background:#F2F2F2;width: 750upx;overflow-x: hidden;}
 	.qiun-padding{padding:2%; width:96%;}
 	.qiun-wrap{display:flex; flex-wrap:wrap;}

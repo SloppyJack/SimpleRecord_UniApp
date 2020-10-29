@@ -2,7 +2,7 @@
 	<view>
 		<view class="wrap">
 			<view class="u-tabs-box">
-				<u-tabs-swiper activeColor="#5098FF" ref="tabs" :list="list" :current="current" @change="change" :is-scroll="false" swiperWidth="750"></u-tabs-swiper>
+				<u-tabs-swiper activeColor="#5098FF" ref="tabs" :list="tabList" :current="current" @change="change" :is-scroll="false" swiperWidth="750"></u-tabs-swiper>
 			</view>
 			<swiper class="swiper-box" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
 				<swiper-item class="swiper-item">
@@ -53,7 +53,7 @@ export default {
 	data() {
 		return {
 			list: this.vuex_tabbar,
-			list: [
+			tabList: [
 				{
 					name: '支出'
 				},
