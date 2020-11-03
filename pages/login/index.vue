@@ -24,8 +24,9 @@
 		<view class="buttom">
 			<view class="loginType">
 				<view class="wechat item">
-					<view class="icon"><u-icon size="70" name="weixin-fill" color="rgb(83,194,64)"></u-icon></view>
-					微信
+					<u-icon size="70" @click="" name="weixin-fill" color="rgb(83,194,64)"></u-icon>
+					<u-button open-type="getUserInfo" @getuserinfo="wxLogin" lang="zh_CN" type="success" size="mini" shape="circle"
+					:ripple="true">微信</u-button>
 				</view>
 				<view class="QQ item">
 					<view class="icon"><u-icon size="70" name="qq-fill" color="rgb(17,183,233)"></u-icon></view>
@@ -59,7 +60,7 @@
 			...mapMutations(['login']),
 			submit() {
 				if(!this.$u.test.isEmpty(this.username) && !this.$u.test.isEmpty(this.password)) {
-					this.$u.post('/user/login', {
+					this.$u.api.login({
 						username: this.username,
 						password: this.password
 					}).then(res => {
@@ -67,7 +68,7 @@
 						this.$refs.uTips.show({
 							title: '登录成功',
 							duration: 1000,
-							})
+							});
 						setTimeout(function() {
 							uni.switchTab({
 							    url: '/pages/detail/index'
@@ -81,6 +82,60 @@
 						type: 'error'
 					})
 				}
+			},
+			wxLogin() {
+				uni.getProvider({
+				  service: 'oauth',
+				  success: (res) => {
+					if (~res.provider.indexOf('weixin')) {
+						uni.login({
+							provider: 'weixin',
+							success: (res1) => {
+								console.log(res1);
+								this.getOpenId(res1.code);
+							},
+							fail: () => {
+								uni.showToast({title:"微信登录授权失败",icon:"none"});
+							}
+						})
+					}else{
+						this.$refs.uToast.show({
+							title: '请先安装微信或升级版本',
+							type: 'error'
+						});
+					}
+				  }
+				});
+			},
+			getOpenId(code) {
+				// 获取openId
+				this.$u.api.getOpenId(code).then(res => {
+					uni.getUserInfo({
+						provider: 'weixin',
+						success: (info) => {
+							console.log(info);
+							// 获取到用户信息后，请求登录
+							this.$u.api.wxLogin({
+								openId : res.openid,
+								username: 'JZ_' + Math.random().toString(36).substr(4),
+								nickname: info.userInfo.nickName,
+								sex: info.userInfo.gender,
+								avatar: info.userInfo.avatarUrl
+							}).then(res => {
+								console.log(res);
+							})
+						},
+						fail: () => {
+							this.$refs.uToast.show({
+								title: '微信登录授权失败',
+								type: 'error'
+							});
+						}
+					})
+				});
+			},
+			getUserInfo() {
+				
 			}
 		},
 		onLoad() {

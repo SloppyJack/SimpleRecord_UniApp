@@ -105,21 +105,17 @@
 				});
 			},
 			showMore() {
-				console.log("点击了");
 				uni.navigateTo({
 				    url: '../list/index'
 				});
 			}
 		},
 		onLoad() {
-			/* console.log(this.hasLogin)
 			if(!this.hasLogin) {
 				this.show = true;
+			} else{
+				this.getSpendTotal();
 			}
-			console.log(this.$store) */
-		},
-		onReady() {
-			this.getSpendTotal();
 		},
 		onPullDownRefresh() {
 			this.getSpendTotal();

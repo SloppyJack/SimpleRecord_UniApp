@@ -37,14 +37,18 @@
                 ]
             },
             "ios" : {},
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "oauth" : {}
+            }
         }
     },
     "quickapp" : {},
     "mp-weixin" : {
         "appid" : "wx674c122894568069",
         "setting" : {
-            "urlCheck" : true
-        }
+            "urlCheck" : true,
+            "minified" : true
+        },
+        "permission" : {}
     }
 }
