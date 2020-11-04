@@ -265,10 +265,14 @@
 					'expendType'
 				).then(res => {
 					let pieDataA = {series:[]};;
-					res.forEach(n => {
-						let temp = {name: n.spendCategoryName, data: n.total};
-						pieDataA.series.push(temp);
-					});
+					if(res.length == 0) {
+						pieDataA.series.push({name: '暂无支出记录', data: 0});
+					} else {
+						res.forEach(n => {
+							let temp = {name: n.spendCategoryName, data: n.total};
+							pieDataA.series.push(temp);
+						});
+					}
 					this.showPieA("canvaPieA",pieDataA);
 				});
 				this.$u.api.getSpendCategoryTotal(
@@ -278,10 +282,14 @@
 					// 将标志设为F
 					this.firstIn[2] = false;
 					let pieDataB = {series:[]};;
-					res.forEach(n => {
-						let temp = {name: n.spendCategoryName, data: n.total};
-						pieDataB.series.push(temp);
-					});
+					if(res.length == 0) {
+						pieDataB.series.push({name: '暂无收入记录', data: 0});
+					} else {
+						res.forEach(n => {
+							let temp = {name: n.spendCategoryName, data: n.total};
+							pieDataB.series.push(temp);
+						});
+					}
 					this.showPieB("canvaPieB",pieDataB);
 				});
 			}
@@ -291,6 +299,15 @@
 			this.cWidth=uni.upx2px(750);
 			this.cHeight=uni.upx2px(500);
 			this.getLineBData();
+		},
+		onPullDownRefresh() {
+			this.firstIn=[true, true, true];
+			if(this.current == 1 && this.firstIn[1]) {
+				this.getLineBData();
+			} else if(this.current == 2 && this.firstIn[2]) {
+				this.getPieData();
+			}
+			uni.stopPullDownRefresh();
 		}
 	}
 </script>

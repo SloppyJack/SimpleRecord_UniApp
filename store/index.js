@@ -8,12 +8,14 @@ const store = new Vuex.Store({
 		hasLogin: false,
 		userInfo: {
 			id: '',
-			name: "",
+			name: '',
+			nike: '',
 			token: '',
 			email: '',
 			sex: '',
-			avatar: ''
-			},
+			avatar: '',
+			openId: ''
+		},
 		// 自定义tabbar数据
 		vuex_tabbar: [{
 				pagePath: "/pages/detail/index",
@@ -54,19 +56,23 @@ const store = new Vuex.Store({
 		tabbarActiveColor: "#5098FF"
 	},
 	mutations: {
-		login(state, provider) {
-			console.log(state)
-			console.log(provider)
+		login(state, userInfo) {
 			state.hasLogin = true;
-			state.userInfo.token = provider.token;
-			state.userInfo.userName = provider.userName;
-			state.userInfo.avatarUrl = provider.avatarUrl;
+			state.userInfo.id = userInfo.id;
+			state.userInfo.token = userInfo.token;
+			state.userInfo.name = userInfo.username;
+			state.userInfo.nike = userInfo.nickname;
+			state.userInfo.email = userInfo.email;
+			state.userInfo.sex = userInfo.sex;
+			state.userInfo.avatarUrl = userInfo.avatarUrl;
+			state.userInfo.openId = userInfo.openId;
+			// 保存到缓存中
+			uni.setStorageSync('userInfo', state.userInfo);
 		},
 		logout(state) {
 			state.hasLogin = false;
-			state.token = '';
-			state.userName = '';
-			state.avatarUrl = '';
+			state.userInfo = {};
+			uni.clearStorageSync('userInfo');
 		}
 	}
 })

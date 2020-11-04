@@ -21,7 +21,8 @@
 	},{
 		"path": "pages/chart/index",
 		"style": {
-			"navigationBarTitleText": "图表"
+			"navigationBarTitleText": "图表",
+			"enablePullDownRefresh": true
 		}
 	},{
 		"path": "pages/add/index",

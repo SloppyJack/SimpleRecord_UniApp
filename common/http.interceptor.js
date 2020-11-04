@@ -23,18 +23,18 @@ const install = (Vue, vm) => {
 	Vue.prototype.$u.http.interceptor.response = (res) => {
 		if(res.retCode == 0) {
 			return res.data;
-		} else if(res.retCode == 102 || res.retCode == 103) {
-			console.log(res);
+		} else if(res.retCode == 102 || res.retCode == 104) {
 			vm.$u.toast(res.message);
 			// 清除vuex中的状态
-			vm.$store.state = null;
+			vm.$store.commit('logout');
 			setTimeout(() => {
-				// 此为uView的方法，详见路由相关文档
-				vm.$u.route('pages/login/index')
-			}, 1500);
+				vm.$u.route({
+					'type': 'redirect',
+					'url': 'pages/login/index'
+				});
+			}, 1000);
 			return false;
 		} else {
-			console.log(res);
 			// 如果返回false，则会调用Promise的reject回调，
 			// 并将进入this.$u.post(url).then().catch(res=>{})的catch回调中，res为服务端的返回值
 			vm.$u.toast(res.message);

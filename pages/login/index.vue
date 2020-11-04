@@ -48,8 +48,8 @@
 	export default {
 		data() {
 			return {
-				username: 'bin',
-				password: 'Abcd1234',
+				username: '',
+				password: '',
 				// 状态栏高度，H5中，此值为0，因为H5不可操作状态栏
 				statusBarHeight: uni.getSystemInfoSync().statusBarHeight,
 				// 导航栏内容区域高度，不包括状态栏高度在内
@@ -91,7 +91,6 @@
 						uni.login({
 							provider: 'weixin',
 							success: (res1) => {
-								console.log(res1);
 								this.getOpenId(res1.code);
 							},
 							fail: () => {
@@ -113,7 +112,6 @@
 					uni.getUserInfo({
 						provider: 'weixin',
 						success: (info) => {
-							console.log(info);
 							// 获取到用户信息后，请求登录
 							this.$u.api.wxLogin({
 								openId : res.openid,
@@ -122,7 +120,15 @@
 								sex: info.userInfo.gender,
 								avatar: info.userInfo.avatarUrl
 							}).then(res => {
-								console.log(res);
+								this.$refs.uTips.show({
+									title: '登录成功',
+									duration: 1000,
+									});
+								setTimeout(function() {
+									uni.switchTab({
+									    url: '/pages/detail/index'
+									});
+								},1500);
 							})
 						},
 						fail: () => {

@@ -8,6 +8,9 @@ import apis from '@/common/http.api.js'
 Vue.use(uView);
 Vue.config.productionTip = false
 Vue.prototype.$store = store	// 挂载在Vue实例上
+Vue.prototype.$onLaunched = new Promise(resolve => {
+    Vue.prototype.$isResolve = resolve
+})
 
 App.mpType = 'app'
 
