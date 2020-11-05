@@ -72,7 +72,6 @@
 			}
 		},
 		methods: {
-			...mapMutations(['login']),
 			modelConfirm() {
 				uni.redirectTo({
 				    url: '../login/index'
@@ -113,7 +112,6 @@
 		async onLoad() {
 			//等待登录成功	
 			await this.$onLaunched;
-			console.log(this.hasLogin);
 			if(!this.hasLogin) {
 				this.show = true;
 			} else{

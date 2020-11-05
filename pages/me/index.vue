@@ -1,13 +1,16 @@
 <template>
 	<view>
+		<view class="top">
+			<u-top-tips ref="uTips"></u-top-tips>
+		</view>
 		<view>
-			<view class="u-flex user-box u-p-l-30 u-p-r-20 u-p-b-30">
+			<view class="u-flex user-box u-p-t-30 u-p-l-30 u-p-r-20 u-p-b-30">
 				<view class="u-m-r-10">
-					<u-avatar :src="pic" size="140"></u-avatar>
+					<u-avatar :src="avatarUrl" size="140"></u-avatar>
 				</view>
 				<view class="u-flex-1">
-					<view class="u-font-18 u-p-b-20">简账</view>
-					<view class="u-font-14 u-tips-color">微信号:test_user</view>
+					<view class="u-font-18 u-p-b-20">{{nikeName}}</view>
+					<view class="u-font-14 u-tips-color">用户名:{{userName}}</view>
 				</view>
 				<view class="u-m-l-10 u-p-10">
 					<u-icon name="scan" color="#969799" size="28"></u-icon>
@@ -16,25 +19,24 @@
 					<u-icon name="arrow-right" color="#969799" size="28"></u-icon>
 				</view>
 			</view>
-			
-			<view class="u-m-t-20">
-				<u-cell-group>
-					<u-cell-item icon="rmb-circle" title="支付"></u-cell-item>
-				</u-cell-group>
-			</view>
-			
 			<view class="u-m-t-20">
 				<u-cell-group>
 					<u-cell-item icon="star" title="收藏"></u-cell-item>
 					<u-cell-item icon="photo" title="相册"></u-cell-item>
 					<u-cell-item icon="coupon" title="卡券"></u-cell-item>
-					<u-cell-item icon="heart" title="关注"></u-cell-item>
+					<u-cell-item icon="share" title="分享"></u-cell-item>
 				</u-cell-group>
 			</view>
 			
 			<view class="u-m-t-20">
 				<u-cell-group>
-					<u-cell-item icon="setting" title="设置"></u-cell-item>
+					<u-cell-item icon="info" title="关于"></u-cell-item>
+				</u-cell-group>
+			</view>
+			
+			<view class="u-m-t-20">
+				<u-cell-group>
+					<u-cell-item icon="close" title="退出" @click="exit"></u-cell-item>
 				</u-cell-group>
 			</view>
 		</view>
@@ -43,7 +45,7 @@
 </template>
 
 <script>
-	import {mapState} from 'vuex';
+	import {mapState, mapMutations} from 'vuex';
 	
 	export default {
 		computed: {
@@ -52,12 +54,36 @@
 		data() {
 			return {
 				list: this.vuex_tabbar,
-				pic:'/static/logo.png',
-				show:true
+				userName: '',
+				nikeName: '',
+				avatarUrl:''
 			}
 		},
 		methods: {
+			...mapMutations(['logout']),
+			getUserInfo() {
+				// 获取用户信息
+				this.userName = userInfo.name;
+				this.nikeName = userInfo.nike;
+				this.avatarUrl = userInfo.avatarUrl;
+			},
+			exit() {
+				this.logout();
+				this.$refs.uTips.show({
+					title: '退出成功',
+					type: 'warning',
+					duration: 1000,
+					});
+				setTimeout(function() {
+					uni.redirectTo({
+					    url: '../login/index'
+					})
+				},1500);
+			}
 			
+		},
+		onLoad() {
+			this.getUserInfo();
 		}
 	}
 </script>

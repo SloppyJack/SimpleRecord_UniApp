@@ -10,7 +10,7 @@
 			if(userInfo.openId) {
 				// 如果本地有存储的用户信息
 				this.$u.api.wxLogin({
-					openId : userInfo.openid,
+					openId : userInfo.openId,
 					username: userInfo.name,
 					nickname: userInfo.nike,
 					sex: userInfo.sex,
@@ -22,6 +22,8 @@
 					console.log('login error');
 					this.$isResolve();
 				});
+			}else {
+				this.$isResolve();
 			}
 		},
 		onShow: function() {

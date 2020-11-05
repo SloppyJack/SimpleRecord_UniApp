@@ -30,7 +30,8 @@
 				</view>
 				<view class="QQ item">
 					<view class="icon"><u-icon size="70" name="qq-fill" color="rgb(17,183,233)"></u-icon></view>
-					QQ
+					<u-button type="default" size="mini" shape="circle"
+					:ripple="true">未开放</u-button>
 				</view>
 			</view>
 			<view class="hint">
@@ -64,7 +65,9 @@
 						username: this.username,
 						password: this.password
 					}).then(res => {
-						this.login(res)
+						this.login(res);
+						console.log(this.hasLogin);
+						let userInfo = uni.getStorageSync("userInfo");
 						this.$refs.uTips.show({
 							title: '登录成功',
 							duration: 1000,
@@ -118,8 +121,9 @@
 								username: 'JZ_' + Math.random().toString(36).substr(4),
 								nickname: info.userInfo.nickName,
 								sex: info.userInfo.gender,
-								avatar: info.userInfo.avatarUrl
+								avatarUrl: info.userInfo.avatarUrl
 							}).then(res => {
+								this.login(res);
 								this.$refs.uTips.show({
 									title: '登录成功',
 									duration: 1000,

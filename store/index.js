@@ -13,7 +13,7 @@ const store = new Vuex.Store({
 			token: '',
 			email: '',
 			sex: '',
-			avatar: '',
+			avatarUrl: '',
 			openId: ''
 		},
 		// 自定义tabbar数据
