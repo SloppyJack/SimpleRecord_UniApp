@@ -63,6 +63,7 @@
 			...mapMutations(['logout']),
 			getUserInfo() {
 				// 获取用户信息
+				let userInfo = uni.getStorageSync('userInfo');
 				this.userName = userInfo.name;
 				this.nikeName = userInfo.nike;
 				this.avatarUrl = userInfo.avatarUrl;
