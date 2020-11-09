@@ -50,12 +50,10 @@
 				</swiper-item>
 			</swiper>
 		</view>
-		<u-tabbar :list="vuex_tabbar" :mid-button="true" :bg-color="tabbarBgColor" :active-color="tabbarActiveColor"></u-tabbar>
 	</view>
 </template>
 
 <script>
-	import {mapState} from 'vuex';
 	import uCharts from '../../js_sdk/u-charts/u-charts/u-charts.js';
 	var _self;
 	var canvaLineB=null;
@@ -63,12 +61,8 @@
 	var canvaPieB = null;
 	
 	export default {
-		computed: {
-			...mapState(['vuex_tabbar', 'tabbarBgColor', 'tabbarActiveColor'])
-		},
 		data() {
 			return {
-				list: this.vuex_tabbar,
 				tabList: [
 					{
 						name: '周'
@@ -312,7 +306,9 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	page{background:#ededed;width: 750upx;overflow-x: hidden;}
+	
 	.wrap {
 		display: flex;
 		flex-direction: column;
@@ -325,7 +321,7 @@
 	.swiper-item {
 		height: 100%;
 	}
-	page{background:#F2F2F2;width: 750upx;overflow-x: hidden;}
+	
 	.qiun-padding{padding:2%; width:96%;}
 	.qiun-wrap{display:flex; flex-wrap:wrap;}
 	.qiun-rows{display:flex; flex-direction:row !important;}

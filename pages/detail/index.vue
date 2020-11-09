@@ -1,53 +1,50 @@
 <template>
 	<view>
-		<view>
-			<view class="banner-wrapper">
-				<u-image class="banner" width="100%" height="600rpx" :src="src"></u-image>
-				<view class="banner-text">
-					<u-row gutter="16">
-						<u-col span="3" offset="1">
-							{{year}}
-							<u-line color="white" />
-							{{month}}月
-						</u-col>
-						<u-col span="1" offset="1">
-							<view class="col-line">
-								<u-line color="red" direction="col" hair-line="false"/>
-							</view>
-						</u-col>
-						<u-col span="2" offset="1">
-							支出
-							<u-line color="white" />
-							{{expendTotal}}
-						</u-col>
-						<u-col span="2" offset="1">
-							收入
-							<u-line color="white" />
-							{{incomeTotal}}
-						</u-col>
-					</u-row>
-				</view>
-			</view>
-			<view>
-				<u-card title="本月消费前三占比" sub-title="支出统计">
-					<view class="" slot="body">
-						<view v-if="spendTotalCategory.length > 0">
-							<view class="u-body-item" v-for="item in spendTotalCategory" :key="item.index">
-								{{item.spendCategoryName}}(金额:{{item.total}})
-								<u-line-progress active-color="#2979ff" :percent="item.percent"></u-line-progress>
-							</view>
+		<view class="banner-wrapper">
+			<u-image class="banner" width="100%" height="600rpx" :src="src"></u-image>
+			<view class="banner-text">
+				<u-row gutter="16">
+					<u-col span="3" offset="1">
+						{{year}}
+						<u-line color="white" />
+						{{month}}月
+					</u-col>
+					<u-col span="1" offset="1">
+						<view class="col-line">
+							<u-line color="red" direction="col" hair-line="false"/>
 						</view>
-						<view v-else>
-							<u-empty text="试试下拉刷新" mode="list"></u-empty>
+					</u-col>
+					<u-col span="2" offset="1">
+						支出
+						<u-line color="white" />
+						{{expendTotal}}
+					</u-col>
+					<u-col span="2" offset="1">
+						收入
+						<u-line color="white" />
+						{{incomeTotal}}
+					</u-col>
+				</u-row>
+			</view>
+		</view>
+		<view>
+			<u-card title="本月消费前三占比" sub-title="支出统计">
+				<view class="" slot="body">
+					<view v-if="spendTotalCategory.length > 0">
+						<view class="u-body-item" v-for="item in spendTotalCategory" :key="item.index">
+							{{item.spendCategoryName}}(金额:{{item.total}})
+							<u-line-progress active-color="#2979ff" :percent="item.percent"></u-line-progress>
 						</view>
 					</view>
-					<view class="" slot="foot"><u-icon @click="showMore" name="chat-fill" size="34" color="" label="查看更多"></u-icon></view>
-				</u-card>
-			</view>
-			<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="false" :content="content"></u-modal>
-			<u-toast ref="uToast" />
+					<view v-else>
+						<u-empty text="试试下拉刷新" mode="list"></u-empty>
+					</view>
+				</view>
+				<view class="" slot="foot"><u-icon @click="showMore" name="chat-fill" size="34" color="" label="查看更多"></u-icon></view>
+			</u-card>
 		</view>
-		<u-tabbar :list="vuex_tabbar" :mid-button="true" :bg-color="tabbarBgColor" :active-color="tabbarActiveColor"></u-tabbar>
+		<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="false" :content="content"></u-modal>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -56,13 +53,12 @@
 	
 	export default {
 		computed: {
-			...mapState(['hasLogin', 'vuex_tabbar', 'tabbarBgColor', 'tabbarActiveColor'])
+			...mapState(['hasLogin'])
 		},
 		data() {
 			return {
 				show: false,
 				content: '请先登录',
-				list: this.vuex_tabbar,
 				src: '/static/img/banner/swim.png',
 				year: new Date().getFullYear(),
 				month: new Date().getMonth() + 1,
@@ -125,7 +121,11 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+	page{
+		background-color: #ededed;
+	}
+	
 	.banner-wrapper{
 		position:relative;
 		width: 100%;

@@ -40,20 +40,15 @@
 				</u-cell-group>
 			</view>
 		</view>
-		<u-tabbar :list="vuex_tabbar" :mid-button="true" v-model="current" :bg-color="tabbarBgColor" :active-color="tabbarActiveColor"></u-tabbar>
 	</view>
 </template>
 
 <script>
-	import {mapState, mapMutations} from 'vuex';
+	import {mapMutations} from 'vuex';
 	
 	export default {
-		computed: {
-			...mapState(['vuex_tabbar', 'tabbarBgColor', 'tabbarActiveColor'])
-		},
 		data() {
 			return {
-				list: this.vuex_tabbar,
 				userName: '',
 				nikeName: '',
 				avatarUrl:''
@@ -105,6 +100,4 @@
 	.user-box{
 		background-color: #fff;
 	}
-	</style>
-	
 </style>

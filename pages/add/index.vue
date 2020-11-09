@@ -1,58 +1,52 @@
 <template>
-	<view>
-		<view class="wrap">
-			<view class="u-tabs-box">
-				<u-tabs-swiper activeColor="#5098FF" ref="tabs" :list="tabList" :current="current" @change="change" :is-scroll="false" swiperWidth="750"></u-tabs-swiper>
-			</view>
-			<swiper class="swiper-box" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
-				<swiper-item class="swiper-item">
-						<view class="page-box">
-							<u-form :model="spendForm" ref="sForm">
-								<u-form-item label="金额" prop="amount"><u-input disabled=true v-model="spendForm.amount" @click="showKeyboard" /></u-form-item>
-								<u-form-item label="类别" prop="categoryName"><u-input type="select" v-model="spendForm.categoryName" @click="showSpendPicker" /></u-form-item>
-								<u-form-item label="日期" prop="date"><u-input type="select" v-model="spendForm.date" @click="showCalendar" /></u-form-item>
-								<u-form-item label="备注">
-									<u-input v-model="spendForm.remarks" type="textarea" />
-								</u-form-item>
-							</u-form>
-							<u-button type="primary" @click="submmitSpend">保存</u-button>
-						</view>
-				</swiper-item>
-				<swiper-item class="swiper-item u-p-b-x-50">
-						<view class="page-box">
-							<u-form :model="incomeForm" ref="iForm">
-								<u-form-item label="金额" prop="amount"><u-input disabled=true v-model="incomeForm.amount"  @click="showKeyboard"/></u-form-item>
-								<u-form-item label="类别" prop="categoryName"><u-input type="select" v-model="incomeForm.categoryName" @click="showIncomePicker" /></u-form-item>
-								<u-form-item label="日期" prop="date"><u-input type="select" v-model="incomeForm.date" @click="showCalendar" /></u-form-item>
-								<u-form-item label="备注">
-									<u-input v-model="incomeForm.remarks" type="textarea" />
-								</u-form-item>
-							</u-form>
-							<u-button type="primary" @click="submmitSpend">保存</u-button>
-						</view>
-				</swiper-item>
-			</swiper>
-			<!-- 数组键盘 -->
-			<u-keyboard mode="number" cancel-text="清除" @change="changeKeyboard" @backspace="backspaceKeyboard" @cancel="clearKeyboard" 
-			v-model="showKeyBoardFlag"></u-keyboard>
-			<!-- 日期选择器 -->
-			<u-calendar v-model="showCalendarFlag" mode="date" @change="changeCalendar"></u-calendar>
-			<!-- picker -->
-			<u-picker mode="selector" v-model="showSpendPickerFlag"  :default-selector="[0]" :range="spendCategory" range-key="name" @confirm="confirmSpendPicker"></u-picker>
-			<u-picker mode="selector" v-model="showIncomePickerFlag"  :default-selector="[0]" :range="incomeCategory" range-key="name" @confirm="confirmIncomePicker"></u-picker>
-			<u-toast ref="uToast" />
+	<view class="wrap">
+		<view class="u-tabs-box">
+			<u-tabs-swiper activeColor="#5098FF" ref="tabs" :list="tabList" :current="current" @change="change" :is-scroll="false" swiperWidth="750"></u-tabs-swiper>
 		</view>
-		<u-tabbar :list="vuex_tabbar" :mid-button="true" :bg-color="tabbarBgColor" :active-color="tabbarActiveColor"></u-tabbar>
+		<swiper class="swiper-box" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
+			<swiper-item class="swiper-item">
+					<view class="page-box">
+						<u-form :model="spendForm" ref="sForm">
+							<u-form-item label="金额" prop="amount"><u-input disabled=true v-model="spendForm.amount" @click="showKeyboard" /></u-form-item>
+							<u-form-item label="类别" prop="categoryName"><u-input type="select" v-model="spendForm.categoryName" @click="showSpendPicker" /></u-form-item>
+							<u-form-item label="日期" prop="date"><u-input type="select" v-model="spendForm.date" @click="showCalendar" /></u-form-item>
+							<u-form-item label="备注">
+								<u-input v-model="spendForm.remarks" type="textarea" />
+							</u-form-item>
+						</u-form>
+						<u-button type="primary" @click="submmitSpend">保存</u-button>
+					</view>
+			</swiper-item>
+			<swiper-item class="swiper-item u-p-b-x-50">
+					<view class="page-box">
+						<u-form :model="incomeForm" ref="iForm">
+							<u-form-item label="金额" prop="amount"><u-input disabled=true v-model="incomeForm.amount"  @click="showKeyboard"/></u-form-item>
+							<u-form-item label="类别" prop="categoryName"><u-input type="select" v-model="incomeForm.categoryName" @click="showIncomePicker" /></u-form-item>
+							<u-form-item label="日期" prop="date"><u-input type="select" v-model="incomeForm.date" @click="showCalendar" /></u-form-item>
+							<u-form-item label="备注">
+								<u-input v-model="incomeForm.remarks" type="textarea" />
+							</u-form-item>
+						</u-form>
+						<u-button type="primary" @click="submmitSpend">保存</u-button>
+					</view>
+			</swiper-item>
+		</swiper>
+		<!-- 数组键盘 -->
+		<u-keyboard mode="number" cancel-text="清除" @change="changeKeyboard" @backspace="backspaceKeyboard" @cancel="clearKeyboard" 
+		v-model="showKeyBoardFlag"></u-keyboard>
+		<!-- 日期选择器 -->
+		<u-calendar v-model="showCalendarFlag" mode="date" @change="changeCalendar"></u-calendar>
+		<!-- picker -->
+		<u-picker mode="selector" v-model="showSpendPickerFlag"  :default-selector="[0]" :range="spendCategory" range-key="name" @confirm="confirmSpendPicker"></u-picker>
+		<u-picker mode="selector" v-model="showIncomePickerFlag"  :default-selector="[0]" :range="incomeCategory" range-key="name" @confirm="confirmIncomePicker"></u-picker>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
 <script>
-	import {mapState} from 'vuex';
-	
 export default {
 	data() {
 		return {
-			list: this.vuex_tabbar,
 			tabList: [
 				{
 					name: '支出'
@@ -109,9 +103,6 @@ export default {
 			spendCategory: [],
 			incomeCategory: []
 		};
-	},
-	computed: {
-		...mapState(['vuex_tabbar', 'tabbarBgColor', 'tabbarActiveColor'])
 	},
 	methods: {
 		// tab栏切换
@@ -264,35 +255,30 @@ export default {
 };
 </script>
 
-<style>
-/* #ifndef H5 */
-page {
-	height: 100%;
-	background-color: #f2f2f2;
-}
-/* #endif */
-</style>
-
-<style lang="scss" scoped>
-.page-box {
-	width: 710rpx;
-	background-color: #ffffff;
-	margin: 20rpx auto;
-	border-radius: 20rpx;
-	box-sizing: border-box;
-	padding: 20rpx;
-	font-size: 28rpx;
-}
-.wrap {
-	display: flex;
-	flex-direction: column;
-	height: calc(100vh - var(--window-top));
-	width: 100%;
-}
-.swiper-box {
-	flex: 1;
-}
-.swiper-item {
-	height: 100%;
-}
+<style lang="scss">
+	page{
+		background-color: #ededed;
+	}
+	
+	.page-box {
+		width: 710rpx;
+		background-color: #ffffff;
+		margin: 20rpx auto;
+		border-radius: 20rpx;
+		box-sizing: border-box;
+		padding: 20rpx;
+		font-size: 28rpx;
+	}
+	.wrap {
+		display: flex;
+		flex-direction: column;
+		height: calc(100vh - var(--window-top));
+		width: 100%;
+	}
+	.swiper-box {
+		flex: 1;
+	}
+	.swiper-item {
+		height: 100%;
+	}
 </style>
