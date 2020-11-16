@@ -23,7 +23,10 @@
 					this.$isResolve();
 				});
 			}else {
-				this.$isResolve();
+				// 立即跳转到登录页面
+				uni.redirectTo({
+				    url: '/pages/login/index'
+				});
 			}
 		},
 		onShow: function() {

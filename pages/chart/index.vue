@@ -2,9 +2,9 @@
 	<view>
 		<view class="wrap">
 			<view class="u-tabs-box">
-				<u-tabs-swiper activeColor="#5098FF" ref="tabs" :list="tabList" :current="current" @change="tabChange" :is-scroll="false" swiperWidth="750"></u-tabs-swiper>
+				<u-tabs activeColor="#5098FF" ref="tabs" :list="tabList" :current="current" @change="tabChange" :is-scroll="false"></u-tabs>
 			</view>
-			<swiper class="swiper-box" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
+			<swiper class="swiper-box" :current="swiperCurrent" @animationfinish="animationfinish">
 				<swiper-item class="swiper-item">
 						<view>
 							<u-empty text="如何展示周数据呢？😊" mode="list" margin-top="100"></u-empty>
@@ -86,18 +86,14 @@
 			tabChange(index) {
 				this.swiperCurrent = index;
 			},
-			transition({ detail: { dx } }) {
-				this.$refs.tabs.setDx(dx);
-			},
 			animationfinish({ detail: { current } }) {
-				this.$refs.tabs.setFinishCurrent(current);
-				this.swiperCurrent = current;
 				if(current == 1 && this.firstIn[1]) {
 					this.getLineBData();
 				} else if(current == 2 && this.firstIn[2]) {
 					this.getPieData();
 				}
 				this.current = current;
+				this.swiperCurrent = current;
 			},
 			getLineBData(){
 				this.$u.api.getLatestSixMonthList({

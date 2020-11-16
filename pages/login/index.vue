@@ -66,12 +66,12 @@
 						password: this.password
 					}).then(res => {
 						this.login(res);
-						console.log(this.hasLogin);
 						let userInfo = uni.getStorageSync("userInfo");
 						this.$refs.uTips.show({
 							title: '登录成功',
 							duration: 1000,
 							});
+						this.$isResolve();
 						setTimeout(function() {
 							uni.switchTab({
 							    url: '/pages/detail/index'
@@ -124,6 +124,7 @@
 								avatarUrl: info.userInfo.avatarUrl
 							}).then(res => {
 								this.login(res);
+								this.$isResolve();
 								this.$refs.uTips.show({
 									title: '登录成功',
 									duration: 1000,

@@ -1,9 +1,9 @@
 <template>
 	<view class="wrap">
 		<view class="u-tabs-box">
-			<u-tabs-swiper activeColor="#5098FF" ref="tabs" :list="tabList" :current="current" @change="change" :is-scroll="false" swiperWidth="750"></u-tabs-swiper>
+			<u-tabs activeColor="#5098FF" ref="tabs" :list="tabList" :current="current" @change="changeTab" :is-scroll="false"></u-tabs>
 		</view>
-		<swiper class="swiper-box" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
+		<swiper class="swiper-box" :current="swiperCurrent"  @animationfinish="animationfinish">
 			<swiper-item class="swiper-item">
 					<view class="page-box">
 						<u-form :model="spendForm" ref="sForm">
@@ -11,20 +11,20 @@
 							<u-form-item label="类别" prop="categoryName"><u-input type="select" v-model="spendForm.categoryName" @click="showSpendPicker" /></u-form-item>
 							<u-form-item label="日期" prop="date"><u-input type="select" v-model="spendForm.date" @click="showCalendar" /></u-form-item>
 							<u-form-item label="备注">
-								<u-input v-model="spendForm.remarks" type="textarea" />
+								<u-input v-model="spendForm.remarks" type="text" />
 							</u-form-item>
 						</u-form>
 						<u-button type="primary" @click="submmitSpend">保存</u-button>
 					</view>
 			</swiper-item>
-			<swiper-item class="swiper-item u-p-b-x-50">
+			<swiper-item class="swiper-item">
 					<view class="page-box">
 						<u-form :model="incomeForm" ref="iForm">
 							<u-form-item label="金额" prop="amount"><u-input disabled=true v-model="incomeForm.amount"  @click="showKeyboard"/></u-form-item>
 							<u-form-item label="类别" prop="categoryName"><u-input type="select" v-model="incomeForm.categoryName" @click="showIncomePicker" /></u-form-item>
 							<u-form-item label="日期" prop="date"><u-input type="select" v-model="incomeForm.date" @click="showCalendar" /></u-form-item>
 							<u-form-item label="备注">
-								<u-input v-model="incomeForm.remarks" type="textarea" />
+								<u-input v-model="incomeForm.remarks" type="text" />
 							</u-form-item>
 						</u-form>
 						<u-button type="primary" @click="submmitSpend">保存</u-button>
@@ -106,14 +106,14 @@ export default {
 	},
 	methods: {
 		// tab栏切换
-		change(index) {
+		changeTab(index) {
 			this.swiperCurrent = index;
 		},
-		transition({ detail: { dx } }) {
-			this.$refs.tabs.setDx(dx);
-		},
+		// transition({ detail: { dx } }) {
+		// 	this.$refs.tabs.setDx(dx);
+		// },
 		animationfinish({ detail: { current } }) {
-			this.$refs.tabs.setFinishCurrent(current);
+			// this.$refs.tabs.setFinishCurrent(current);
 			this.swiperCurrent = current;
 			this.current = current;
 		},
@@ -232,9 +232,9 @@ export default {
 						'id': n.id
 					};
 					this.incomeCategory.push(temp);
-				});
-				this.$refs.uToast.show({
-					title: '更新成功'
+					this.$refs.uToast.show({
+						title: '更新成功'
+					});
 				});
 			})
 		}
@@ -244,9 +244,9 @@ export default {
 	},
 	// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 	onReady() {
-		this.$refs.sForm.setRules(this.sRules);
-		this.$refs.iForm.setRules(this.sRules);
-		this.getSpendCategory();
+		// this.$refs.sForm.setRules(this.sRules);
+		// this.$refs.iForm.setRules(this.sRules);
+		// this.getSpendCategory();
 	},
 	onPullDownRefresh() {
 		this.getSpendCategory();
