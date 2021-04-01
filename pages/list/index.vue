@@ -146,10 +146,11 @@
 					'pageSize': this.pageSize
 				};
 				this.$u.api.getRecordListByMonth(temp).then(res => {
-					if(res.length == 0) {
+					const data = res.list
+					if(data.length == 0) {
 						this.status = 'nomore';
 					}
-					res.forEach(n => {
+					data.forEach(n => {
 						// 判断recordList的最后一个元素
 						if(this.recordList.length < 1 || this.recordList[this.recordList.length - 1].occurTime != n.occurTime) {
 							let temp = {
@@ -161,7 +162,6 @@
 							this.recordList[this.recordList.length - 1].list.push(n);
 						}
 					});
-					console.log(this.recordList);
 					this.$refs.uToast.show({
 						title: '更新成功'
 					});
@@ -196,9 +196,6 @@
 					if (mon <= 0) {
 						year = year - 1;
 						mon = mon + 12;
-					}
-					if (mon < 10) {
-						mon = "0" + mon;
 					}
 					arry[i] = {
 						'label': year + "-" + mon,
@@ -288,6 +285,7 @@
 		onReady() {
 			this.getRecordListByMonth(true);
 			this.months = this.getLastSixMon();
+			console.log(this.date)
 		},
 		onPullDownRefresh() {
 			this.getRecordListByMonth(true);

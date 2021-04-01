@@ -97,11 +97,11 @@
 			},
 			getLineBData(){
 				this.$u.api.getLatestSixMonthList({
-					beginDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1 -5),
+					beginDate: this.getBeforSixMonth(),
 					recordTypeCode: 'expendType'
 				}).then(expendRes => {
 					this.$u.api.getLatestSixMonthList({
-						beginDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1 -5),
+						beginDate: this.getBeforSixMonth(),
 						recordTypeCode: 'incomeType'
 					}).then(incomeRes => {
 						// 将标志设为F
@@ -282,6 +282,16 @@
 					}
 					this.showPieB("canvaPieB",pieDataB);
 				});
+			},
+			// 获取前六个月
+			getBeforSixMonth() {
+				let year = new Date().getFullYear();
+				let month = new Date().getMonth() - 4;
+				if(month < 0) {
+					year = year -1
+					month = month + 12
+				}
+				return year + '-' + month
 			}
 		},
 		onLoad() {

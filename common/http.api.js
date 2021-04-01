@@ -1,16 +1,23 @@
 let registerUrl = "/user/register"
 let loginUrl = "/user/login";
+// 微信登录相关
 let getOpenIdUrl = "/wx/openId/"
 let wxLoginUrl ="/wx/login";
-let getSpendCategoryUrl = '/v1/spendCategory/recordTypeId/';
-let recordInsertUrl = "/v1/record"
-let spendTotalUrl = "v1/record/spendTotalInMonth/";
-let topThreeSpendTotalUrl = "v1/record/topThreeSpendCategoryTotal/"
-let recordListByMonthUrl = "v1/record/listByMonth";
-let updateRecordUrl = "v1/record/"
-let delRecordUrl = "v1/record/"
-let latestSixMonthListUrl = "v1/record/latestSixMonthList"
-let spendCategoryTotalUrl = "v1/record/spendCategoryTotal/"
+// 花费种类相关
+let getSpendCategoryUrl = '/spendCategory/recordTypeId/';
+// 主页
+let spendTotalUrl = "/home/spendTotalInMonth/";
+let topThreeSpendTotalUrl = "/home/topThreeSpendCategoryTotal/"
+// 分析相关
+let spendCategoryTotalUrl = "/analysis/spendCategoryTotal/"
+let latestSixMonthListUrl = "/analysis/latestSixMonthList"
+// 记账相关
+let recordInsertUrl = "/record"
+let recordListByMonthUrl = "/record/listByMonth";
+let updateRecordUrl = "/record/"
+let delRecordUrl = "/record/"
+
+
 
 const install = (Vue, vm) => {
 	let login = (params = {}) => vm.$u.post(loginUrl, params);

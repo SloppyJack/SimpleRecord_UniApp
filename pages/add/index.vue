@@ -232,9 +232,6 @@ export default {
 						'id': n.id
 					};
 					this.incomeCategory.push(temp);
-					this.$refs.uToast.show({
-						title: '更新成功'
-					});
 				});
 			})
 		}
@@ -244,9 +241,9 @@ export default {
 	},
 	// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 	onReady() {
-		// this.$refs.sForm.setRules(this.sRules);
-		// this.$refs.iForm.setRules(this.sRules);
-		// this.getSpendCategory();
+		this.$refs.sForm.setRules(this.sRules);
+		this.$refs.iForm.setRules(this.sRules);
+		this.getSpendCategory();
 	},
 	onPullDownRefresh() {
 		this.getSpendCategory();
