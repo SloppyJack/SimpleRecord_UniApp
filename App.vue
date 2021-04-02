@@ -23,10 +23,12 @@
 					this.$isResolve();
 				});
 			}else {
+				// tips：微信审核不通过，取消强制登录
 				// 立即跳转到登录页面
-				uni.redirectTo({
-				    url: '/pages/login/index'
-				});
+				// uni.redirectTo({
+				//     url: '/pages/login/index'
+				// });
+				this.$isResolve();
 			}
 		},
 		onShow: function() {

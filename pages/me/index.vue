@@ -40,19 +40,25 @@
 				</u-cell-group>
 			</view>
 		</view>
+		<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="false" :content="content"></u-modal>
 	</view>
 </template>
 
 <script>
-	import {mapMutations} from 'vuex';
+	import {mapState, mapMutations} from 'vuex';
 	
 	export default {
 		data() {
 			return {
+				show: false,
+				content: '请先登录',
 				userName: '',
 				nikeName: '',
 				avatarUrl:''
 			}
+		},
+		computed: {
+			...mapState(['hasLogin'])
 		},
 		methods: {
 			...mapMutations(['logout']),
@@ -75,11 +81,22 @@
 					    url: '../login/index'
 					})
 				},1500);
+			},
+			modelConfirm() {
+				uni.redirectTo({
+				    url: '../login/index'
+				})
 			}
-			
 		},
-		onLoad() {
-			this.getUserInfo();
+		onShow() {
+			// 等待登录成功
+			if(!this.hasLogin) {
+				this.show = true;
+			} else{
+				// 关闭提示
+				this.show = false;
+				this.getUserInfo();
+			}
 		}
 	}
 </script>

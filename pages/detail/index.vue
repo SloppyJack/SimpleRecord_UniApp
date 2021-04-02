@@ -69,6 +69,8 @@
 		},
 		methods: {
 			modelConfirm() {
+				// 关闭提示
+				this.show = false;
 				uni.redirectTo({
 				    url: '../login/index'
 				})
@@ -106,6 +108,7 @@
 			}
 		},
 		async onLoad() {
+			console.log('detail show');
 			//等待登录成功	
 			await this.$onLaunched;
 			if(!this.hasLogin) {

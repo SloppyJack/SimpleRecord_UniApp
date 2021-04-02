@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="u-page">
-			<u-empty text="功能正在开发中~" mode="list" margin-top="100"></u-empty>
+			<u-empty text="暂无数据~" mode="list" margin-top="100"></u-empty>
 		</view>
 	</view>
 </template>
