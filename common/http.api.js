@@ -3,6 +3,9 @@ let loginUrl = "/user/login";
 // 微信登录相关
 let getOpenIdUrl = "/wx/openId/"
 let wxLoginUrl ="/wx/login";
+// 扫码登录相关
+let qrCodeScanUrl ="/qrcode/scan?uuid="
+let qrCodeAuthorizeUrl = "/qrcode/authorize"
 // 花费种类相关
 let getSpendCategoryUrl = '/spendCategory/recordTypeId/';
 // 主页
@@ -46,9 +49,13 @@ const install = (Vue, vm) => {
 	
 	let getSpendCategoryTotal = (year, recordType) => vm.$u.get(spendCategoryTotalUrl + year + '/' + recordType);
 	
+	let qrCodeScan = (uuid) => vm.$u.put(qrCodeScanUrl + uuid);
+	
+	let qrCodeAuthorize = (params = {}) => vm.$u.put(qrCodeAuthorizeUrl, params);
+	
 	// 将各个定义的接口名称，统一放进对象挂载到vm.$u.api(因为vm就是this，也即this.$u.api)下
 	vm.$u.api = {login, getOpenId, wxLogin, getSpendCategory, recordInsert, getSpendTotal, getTopThreeSpendTotal, getRecordListByMonth, 
-				updateRecord, delRecord, getLatestSixMonthList, getSpendCategoryTotal};
+				updateRecord, delRecord, getLatestSixMonthList, getSpendCategoryTotal, qrCodeScan, qrCodeAuthorize};
 }
 
 export default {

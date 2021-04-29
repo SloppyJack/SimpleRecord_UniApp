@@ -182,7 +182,6 @@
 			async getOpenId(code) {
 				// 获取openId
 				await this.$u.api.getOpenId(code).then(res => {
-					debugger
 					this.userInfo.openId = res.openid
 				});
 			}
