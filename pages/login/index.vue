@@ -25,7 +25,7 @@
 			<view class="loginType">
 				<view class="wechat item">
 					<u-icon size="70" @click="" name="weixin-fill" color="rgb(83,194,64)"></u-icon>
-					<u-button open-type="getUserInfo" @getuserinfo="wxLogin" lang="zh_CN" type="success" size="mini" shape="circle"
+					<u-button @click="getUserInfo" lang="zh_CN" type="success" size="mini" shape="circle"
 					:ripple="true">微信</u-button>
 				</view>
 				<view class="QQ item">
@@ -54,7 +54,13 @@
 				// 状态栏高度，H5中，此值为0，因为H5不可操作状态栏
 				statusBarHeight: uni.getSystemInfoSync().statusBarHeight,
 				// 导航栏内容区域高度，不包括状态栏高度在内
-				navbarHeight: 44
+				navbarHeight: 44,
+				userInfo: {
+					openId: '',
+					nickname: '',
+					sex: null,
+					avatarUrl: ''
+				}
 			}
 		},
 		methods: {
@@ -86,67 +92,99 @@
 					})
 				}
 			},
-			wxLogin() {
-				uni.getProvider({
-				  service: 'oauth',
-				  success: (res) => {
-					if (~res.provider.indexOf('weixin')) {
-						uni.login({
-							provider: 'weixin',
-							success: (res1) => {
-								this.getOpenId(res1.code);
-							},
-							fail: () => {
-								uni.showToast({title:"微信登录授权失败",icon:"none"});
-							}
-						})
-					}else{
-						this.$refs.uToast.show({
-							title: '请先安装微信或升级版本',
-							type: 'error'
-						});
-					}
-				  }
-				});
-			},
-			getOpenId(code) {
+			// 获取用户信息
+			async getUserInfo() {
+				await this.getUserProfile()
+				// 获取服务供应商
+				let code;
+				await this.getProvider().then(res => {
+					code = res
+				})
 				// 获取openId
-				this.$u.api.getOpenId(code).then(res => {
-					uni.getUserInfo({
-						provider: 'weixin',
+				await this.getOpenId(code)
+				// 登录
+				await this.wxLogin()
+			},
+			// 适配微信获取用户信息
+			async getUserProfile() {
+				return new Promise((resolve, reject) => {
+					// TODO 调用前检查用户是否已注册
+					uni.getUserProfile({
+						desc: '登录',
 						success: (info) => {
-							// 获取到用户信息后，请求登录
-							this.$u.api.wxLogin({
-								openId : res.openid,
-								username: 'JZ_' + Math.random().toString(36).substr(4),
-								nickname: info.userInfo.nickName,
-								sex: info.userInfo.gender,
-								avatarUrl: info.userInfo.avatarUrl
-							}).then(res => {
-								this.login(res);
-								this.$isResolve();
-								this.$refs.uTips.show({
-									title: '登录成功',
-									duration: 1000,
-									});
-								setTimeout(function() {
-									uni.switchTab({
-									    url: '/pages/detail/index'
-									});
-								},1500);
-							})
+							this.userInfo.nickname = info.userInfo.nickName,
+							this.userInfo.sex = info.userInfo.gender,
+							this.userInfo.avatarUrl = info.userInfo.avatarUrl
+							resolve();
 						},
-						fail: () => {
+						fail: (res) => {
 							this.$refs.uToast.show({
 								title: '微信登录授权失败',
 								type: 'error'
 							});
+							reject('err')
 						}
 					})
-				});
+				})
 			},
-			getUserInfo() {
-				
+			// 发起登录
+			async wxLogin() {
+				// 获取到用户信息后，请求登录
+				await this.$u.api.wxLogin({
+					openId : this.userInfo.openId,
+					username: 'JZ_' + Math.random().toString(36).substr(4),
+					nickname: this.userInfo.nickname,
+					sex: this.userInfo.sex,
+					avatarUrl: this.userInfo.avatarUrl
+				}).then(res => {
+					this.login(res);
+					this.$isResolve();
+					this.$refs.uTips.show({
+						title: '登录成功',
+						duration: 1000,
+						});
+					setTimeout(function() {
+						uni.switchTab({
+						    url: '/pages/detail/index'
+						});
+					},1500);
+				})
+			},
+			// 获取服务商
+			getProvider() {
+				return new Promise((resolve, reject) => {
+					uni.getProvider({
+						service: 'oauth',
+						success: (res) => {
+							if (~res.provider.indexOf('weixin')) {
+								uni.login({
+									provider: 'weixin',
+									success: (res1) => {
+										resolve(res1.code);
+									},
+									fail: () => {
+										uni.showToast({title:"微信登录授权失败",icon:"none"});
+										reject('微信登录授权失败')
+									}
+								})
+							}else{
+								this.$refs.uToast.show({
+									title: '请先安装微信或升级版本',
+									type: 'error'
+								});
+								reject('请先安装微信或升级版本')
+							}
+						}
+					})
+				})
+			},
+			// 获取openId
+			async getOpenId(code) {
+				// 获取openId
+				await this.$u.api.getOpenId(code).then(res => {
+					debugger
+					this.userInfo.openId = res.openid
+				});
 			}
 		},
 		onLoad() {
