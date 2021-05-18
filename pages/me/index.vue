@@ -41,7 +41,6 @@
 			</view>
 		</view>
 		<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="false" :content="content"></u-modal>
-		<u-modal v-model="showAuth" @confirm="confirmAuth" :show-cancel-button="true" :content="authContent"></u-modal>
 		<u-toast ref="uToast" />
 	</view>
 </template>
@@ -56,12 +55,7 @@
 				content: '请先登录',
 				userName: '',
 				nikeName: '',
-				avatarUrl:'',
-				token: '',
-				authContent: '请确认是否授权',
-				uuid: '',
-				isAuth: false,
-				showAuth: false
+				avatarUrl:''
 			}
 		},
 		computed: {
@@ -75,7 +69,6 @@
 				this.userName = userInfo.name
 				this.nikeName = userInfo.nike
 				this.avatarUrl = userInfo.avatarUrl
-				this.token = userInfo.token
 			},
 			exit() {
 				this.logout();
@@ -94,34 +87,9 @@
 				uni.redirectTo({
 				    url: '../login/index'
 				})
-			},
-			// 确认授权
-			async confirmAuth() {
-				await this.qrCodeAuthorize(this.uuid, this.token)
-				this.showAuth = false
-			},
-			// 扫描二维码
-			async scannQrcode(uuid) {
-				await this.$u.api.qrCodeScan(uuid)
-			},
-			// 授权登录
-			async qrCodeAuthorize(uuid, token) {
-				const param = {
-					'uuid': uuid,
-					'token': token
-				}
-				await this.$u.api.qrCodeAuthorize(param).then(res => {
-					this.$refs.uToast.show({
-						title: '授权成功'
-					});
-				})
 			}
 		},
 		onShow() {
-			if(this.isAuth) {
-				// 如为授权，则暂不请求用户信息
-				return
-			}
 			// 等待登录成功
 			if(!this.hasLogin) {
 				this.show = true;
@@ -129,18 +97,6 @@
 				// 关闭提示
 				this.show = false;
 				this.getUserInfo();
-			}
-		},
-		async onLoad(option) {
-			//option为object类型，会序列化上个页面传递的参数
-			const uuid = option.scene
-			if(uuid.length === 32) {
-				this.isAuth = true
-				this.uuid = uuid
-				// 获取用户信息
-				this.getUserInfo()
-				await this.scannQrcode(uuid)
-				this.showAuth = true
 			}
 		}
 	}

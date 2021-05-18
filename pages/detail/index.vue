@@ -44,6 +44,7 @@
 			</u-card>
 		</view>
 		<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="false" :content="content"></u-modal>
+		<u-modal v-model="authInfo.showAuth" @confirm="confirmAuth" :show-cancel-button="true" :content="authInfo.authContent"></u-modal>
 		<u-toast ref="uToast" />
 	</view>
 </template>
@@ -64,7 +65,14 @@
 				month: new Date().getMonth() + 1,
 				expendTotal: 0.00,
 				incomeTotal: 0.00,
-				spendTotalCategory: []
+				spendTotalCategory: [],
+				authInfo: {
+					token: '',
+					authContent: '请确认是否授权',
+					uuid: '',
+					isAuth: false,
+					showAuth: false
+				}
 			}
 		},
 		methods: {
@@ -75,8 +83,8 @@
 				    url: '../login/index'
 				})
 			},
-			getTopThreeSpendTotal() {
-				this.$u.api.getTopThreeSpendTotal(this.year + '-' + this.month).then(res => {
+			async getTopThreeSpendTotal() {
+				await this.$u.api.getTopThreeSpendTotal(this.year + '-' + this.month).then(res => {
 					// 清空数组
 					this.spendTotalCategory = [];
 					res.forEach((n, index) => {
@@ -89,36 +97,74 @@
 						};
 						this.spendTotalCategory.push(temp);
 					});
-					this.$refs.uToast.show({
-						title: '更新成功'
-					});
 				});
 			},
-			getSpendTotal() {
-				this.$u.api.getSpendTotal(this.year + '-' + this.month).then(res => {
+			async getSpendTotal(showToast) {
+				await this.$u.api.getSpendTotal(this.year + '-' + this.month).then(res => {
 					this.expendTotal = res[0];
 					this.incomeTotal = res[1];
-					this.getTopThreeSpendTotal();
 				});
+				await this.getTopThreeSpendTotal();
+				if(showToast) {
+					this.$refs.uToast.show({
+						title: '更新成功'
+					});	
+				}				
 			},
 			showMore() {
 				uni.navigateTo({
 				    url: '../list/index'
 				});
+			},
+			// 确认授权
+			async confirmAuth() {
+				await this.qrCodeAuthorize(this.authInfo.uuid, this.authInfo.token)
+				this.authInfo.showAuth = false
+			},
+			// 扫描二维码
+			async scannQrcode(uuid) {
+				await this.$u.api.qrCodeScan(uuid)
+			},
+			// 授权登录
+			async qrCodeAuthorize(uuid, token) {
+				const param = {
+					'uuid': uuid,
+					'token': token
+				}
+				await this.$u.api.qrCodeAuthorize(param).then(res => {
+					this.$refs.uToast.show({
+						title: '授权成功'
+					});
+				})
+			},
+			// 获取用户token
+			getUserToken() {
+				let userInfo = uni.getStorageSync('userInfo')
+				this.authInfo.token = userInfo.token
 			}
 		},
-		async onLoad() {
+		async onLoad(option) {
 			console.log('detail show');
+			//option为object类型，会序列化上个页面传递的参数
+			const uuid = option.scene
 			//等待登录成功	
 			await this.$onLaunched;
 			if(!this.hasLogin) {
 				this.show = true;
 			} else{
-				this.getSpendTotal();
+				await this.getSpendTotal();
+				// 授权登录
+				if(uuid && uuid.length === 32) {
+					this.authInfo.uuid = uuid
+					// 获取用户信息
+					this.getUserToken()
+					await this.scannQrcode(uuid)
+					this.authInfo.showAuth = true
+				}
 			}
 		},
 		onPullDownRefresh() {
-			this.getSpendTotal();
+			this.getSpendTotal(true);
 			uni.stopPullDownRefresh();
 		}
 	}
