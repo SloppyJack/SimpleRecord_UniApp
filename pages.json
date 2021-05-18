@@ -51,10 +51,10 @@
 			}
 		}
 	},{
-		"path" : "pages/test/index",
+		"path" : "pages/me/about/index",
 		"style" : {
-			"navigationBarTitleText": "测试页面",
-			"enablePullDownRefresh": true
+			"navigationBarTitleText": "关于简账",
+			"enablePullDownRefresh": false
 		}
 	}
     ],

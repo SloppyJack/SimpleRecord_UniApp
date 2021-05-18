@@ -21,16 +21,14 @@
 			</view>
 			<view class="u-m-t-20">
 				<u-cell-group>
-					<u-cell-item icon="star" title="收藏"></u-cell-item>
-					<u-cell-item icon="photo" title="相册"></u-cell-item>
-					<u-cell-item icon="coupon" title="卡券"></u-cell-item>
-					<u-cell-item icon="share" title="分享"></u-cell-item>
+					<u-cell-item icon="star"  @click="clickBadge" title="徽章"></u-cell-item>
+					<u-cell-item icon="share"  @click="clickShare" title="分享"></u-cell-item>
 				</u-cell-group>
 			</view>
 			
 			<view class="u-m-t-20">
 				<u-cell-group>
-					<u-cell-item icon="info" title="关于"></u-cell-item>
+					<u-cell-item icon="info" @click="clickAbout" title="关于简账"></u-cell-item>
 				</u-cell-group>
 			</view>
 			
@@ -87,6 +85,24 @@
 				uni.redirectTo({
 				    url: '../login/index'
 				})
+			},
+			// 跳转至关于
+			clickAbout() {
+				uni.navigateTo({
+				    url: './about/index'
+				});
+			},
+			// 点击徽章
+			clickBadge() {
+				this.$refs.uToast.show({
+					title: '徽章功能即将上线~'
+				});
+			},
+			// 点击分享
+			clickShare() {
+				this.$refs.uToast.show({
+					title: '分享功能即将上线~'
+				});
 			}
 		},
 		onShow() {
