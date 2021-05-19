@@ -38,7 +38,7 @@
 				</u-cell-group>
 			</view>
 		</view>
-		<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="false" :content="content"></u-modal>
+		<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="true" :content="content"></u-modal>
 		<u-toast ref="uToast" />
 	</view>
 </template>
@@ -50,7 +50,7 @@
 		data() {
 			return {
 				show: false,
-				content: '请先登录',
+				content: '您还未登录',
 				userName: '',
 				nikeName: '',
 				avatarUrl:''

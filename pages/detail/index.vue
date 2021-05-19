@@ -43,7 +43,7 @@
 				<view class="" slot="foot"><u-icon @click="showMore" name="chat-fill" size="34" color="" label="查看更多"></u-icon></view>
 			</u-card>
 		</view>
-		<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="false" :content="content"></u-modal>
+		<u-modal v-model="show" @confirm="modelConfirm" :show-cancel-button="true" :content="content"></u-modal>
 		<u-modal v-model="authInfo.showAuth" @confirm="confirmAuth" :show-cancel-button="true" :content="authInfo.authContent"></u-modal>
 		<u-toast ref="uToast" />
 	</view>
@@ -59,7 +59,7 @@
 		data() {
 			return {
 				show: false,
-				content: '请先登录',
+				content: '您还未登录',
 				src: '/static/img/banner/swim.png',
 				year: new Date().getFullYear(),
 				month: new Date().getMonth() + 1,
